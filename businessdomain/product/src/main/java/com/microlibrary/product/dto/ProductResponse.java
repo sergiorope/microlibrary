@@ -15,7 +15,7 @@ import lombok.Data;
 @Data
 public class ProductResponse {
     
-    @Schema(name = "productId", required = true, example = "1", defaultValue = "1", description = "Unique ID of the product")
+    @Schema(name = "id", required = true, example = "1", defaultValue = "1", description = "Unique ID of the product")
     private long id;  
     
     @Schema(name = "name", required = true, example = "La isla de la mujer dormida", defaultValue = "La isla de la mujer dormida", description = "Name of product")

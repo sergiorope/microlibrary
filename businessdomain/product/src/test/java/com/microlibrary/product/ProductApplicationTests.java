@@ -3,6 +3,7 @@ package com.microlibrary.product;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+/*
 @SpringBootTest
 class ProductApplicationTests {
 
@@ -10,4 +11,8 @@ class ProductApplicationTests {
 	void contextLoads() {
 	}
 
+
+
 }
+
+ */

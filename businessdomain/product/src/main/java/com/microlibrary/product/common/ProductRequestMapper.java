@@ -12,6 +12,7 @@ import org.mapstruct.Mappings;
 public interface ProductRequestMapper {
 
     @Mappings({
+        @Mapping(target = "id", ignore = true),
         @Mapping(source = "name", target = "name"),
         @Mapping(source = "description", target = "description"),
         @Mapping(source = "autor", target = "autor"),
