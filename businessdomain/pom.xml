@@ -8,4 +8,7 @@
     </parent>
     <artifactId>businessdomain</artifactId>
     <packaging>pom</packaging>
+    <modules>
+        <module>../../product</module>
+    </modules>
 </project>
