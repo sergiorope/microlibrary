@@ -8,7 +8,7 @@ import com.microlibrary.product.dto.ProductRequest;
 import com.microlibrary.product.dto.ProductResponse;
 import com.microlibrary.product.entities.Product;
 import com.microlibrary.product.service.ProductService;
-import com.microservice.product.exception.BussinesRuleException;
+import com.microlibrary.product.exception.BussinesRuleException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

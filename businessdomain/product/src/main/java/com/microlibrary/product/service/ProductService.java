@@ -10,7 +10,7 @@ import com.microlibrary.product.dto.ProductRequest;
 import com.microlibrary.product.dto.ProductResponse;
 import com.microlibrary.product.entities.Product;
 import com.microlibrary.product.repository.ProductRepository;
-import com.microservice.product.exception.BussinesRuleException;
+import com.microlibrary.product.exception.BussinesRuleException;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
