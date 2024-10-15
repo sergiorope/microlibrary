@@ -13,6 +13,8 @@
         <module>product</module>
         <module>customer</module>
         <module>partner</module>
+        <module>loan</module>
+        <module>loanline</module>
     </modules>
     
     <dependencies>
