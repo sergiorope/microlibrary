@@ -18,8 +18,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -51,8 +53,8 @@ public class PartnerController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Success"),
         @ApiResponse(responseCode = "500", description = "Internal error")})
-    @GetMapping("/id")
-    public ResponseEntity<?> getById(long id) throws BussinesRuleException {
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getById(@PathVariable(name = "id") long id) throws BussinesRuleException {
 
         PartnerResponse getById = ps.getById(id);
 
@@ -75,8 +77,8 @@ public class PartnerController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Success"),
         @ApiResponse(responseCode = "500", description = "Internal error")})
-    @PutMapping("/put")
-    public ResponseEntity<PartnerResponse> put(long id, PartnerRequest input) throws BussinesRuleException {
+    @PutMapping("/{id}")
+    public ResponseEntity<PartnerResponse> put(@PathVariable(name = "id") long id, @RequestBody PartnerRequest input) throws BussinesRuleException {
 
         PartnerResponse put = ps.put(id, input);
 
@@ -87,8 +89,8 @@ public class PartnerController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Success"),
         @ApiResponse(responseCode = "500", description = "Internal error")})
-    @DeleteMapping("/delete")
-    public ResponseEntity<PartnerResponse> delete(long id) throws BussinesRuleException {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<PartnerResponse> delete(@PathVariable(name = "id") long id) throws BussinesRuleException {
 
         PartnerResponse delete = ps.delete(id);
 

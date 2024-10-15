@@ -25,6 +25,6 @@ public class Customer {
     private String surname;
 
     @Schema(description = "The ID of the category or rank of the customer")
-    private Long partnerId;
+    private Long partner_Id;
 
 }

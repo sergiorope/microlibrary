@@ -12,14 +12,17 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.net.UnknownHostException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -52,13 +55,23 @@ public class CustomerController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Success"),
         @ApiResponse(responseCode = "500", description = "Internal error")})
-    @GetMapping("/id")
-    public ResponseEntity<?> getById(long id) throws BussinesRuleException {
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getById(@PathVariable(name = "id") long id) throws BussinesRuleException {
 
         CustomerResponse getById = cs.getById(id);
 
         return ResponseEntity.ok(getById);
 
+    }
+
+    @Operation(description = "Find Partner of the Customer", summary = "Return 404 if the partner not found")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Success"),
+        @ApiResponse(responseCode = "500", description = "Internal error")})
+    @GetMapping("/partner/{id}")
+    public ResponseEntity<?> getPartner(@PathVariable(name = "id") long id) throws BussinesRuleException, UnknownHostException {
+        String partnerName = cs.getPartner(id);
+        return ResponseEntity.ok(partnerName);
     }
 
     @Operation(description = "Insert Customer", summary = "Return 400 if the bussines validation is wrong")
@@ -78,8 +91,8 @@ public class CustomerController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Success"),
         @ApiResponse(responseCode = "500", description = "Internal error")})
-    @PutMapping("/put")
-    public ResponseEntity<CustomerResponse> put(long id, CustomerRequest input) throws BussinesRuleException {
+    @PutMapping("/{id}")
+    public ResponseEntity<CustomerResponse> put(@PathVariable(name = "id") long id, @RequestBody CustomerRequest input) throws BussinesRuleException {
 
         CustomerResponse put = cs.put(id, input);
 
@@ -91,8 +104,8 @@ public class CustomerController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Success"),
         @ApiResponse(responseCode = "500", description = "Internal error")})
-    @DeleteMapping("/delete")
-    public ResponseEntity<CustomerResponse> delete(long id) throws BussinesRuleException {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<CustomerResponse> delete(@PathVariable(name = "id") long id) throws BussinesRuleException {
 
         CustomerResponse delete = cs.delete(id);
 

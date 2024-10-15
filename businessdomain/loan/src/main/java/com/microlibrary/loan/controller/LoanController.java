@@ -2,13 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.microlibrary.product.controller;
+package com.microlibrary.loan.controller;
 
-import com.microlibrary.product.dto.ProductRequest;
-import com.microlibrary.product.dto.ProductResponse;
-import com.microlibrary.product.entities.Product;
-import com.microlibrary.product.service.ProductService;
-import com.microlibrary.product.exception.BussinesRuleException;
+import com.microlibrary.loan.dto.LoanRequest; // Asegúrate de que este DTO exista
+import com.microlibrary.loan.dto.LoanResponse; // Asegúrate de que este DTO exista
+import com.microlibrary.loan.entities.Loan; // Asegúrate de que esta entidad exista
+import com.microlibrary.loan.service.LoanService; // Asegúrate de que este servicio exista
+import com.microlibrary.loan.exception.BussinesRuleException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -30,77 +30,71 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author Sergio
  */
-@Tag(name = "Product API", description = "This APi serve all functionality for management Products")
+@Tag(name = "Loan API", description = "This API serves all functionality for management Loans")
 @RestController
-@RequestMapping("/product")
-public class ProductController {
+@RequestMapping("/loan")
+public class LoanController {
 
     @Autowired
-    ProductService ps;
+    LoanService ls; // Cambiado de ps a ls para seguir una convención
 
-    @Operation(description = "FindAll Products", summary = "Return 404 if the products not found")
+    @Operation(description = "Find All Loans", summary = "Return 404 if the loans are not found")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Success"),
         @ApiResponse(responseCode = "500", description = "Internal error")})
     @GetMapping("/list")
     public ResponseEntity<?> getAll() throws BussinesRuleException {
 
-        List<ProductResponse> findAll = ps.getAll();
+        List<LoanResponse> findAll = ls.getAll();
 
         return ResponseEntity.ok(findAll);
-
     }
 
-    @Operation(description = "Find Product", summary = "Return 404 if the product not found")
+    @Operation(description = "Find Loan", summary = "Return 404 if the loan is not found")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Success"),
         @ApiResponse(responseCode = "500", description = "Internal error")})
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable(name = "id") long id) throws BussinesRuleException {
 
-        ProductResponse getById = ps.getById(id);
+        LoanResponse getById = ls.getById(id);
 
         return ResponseEntity.ok(getById);
-
     }
 
-    @Operation(description = "Insert Product", summary = "Return 400 if the bussines validation is wrong")
+    @Operation(description = "Insert Loan", summary = "Return 400 if the business validation is wrong")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Success"),
         @ApiResponse(responseCode = "500", description = "Internal error")})
     @PostMapping("/post")
-    public ResponseEntity<ProductResponse> post(ProductRequest input) throws BussinesRuleException {
+    public ResponseEntity<LoanResponse> post(@RequestBody LoanRequest input) throws BussinesRuleException {
 
-        ProductResponse post = ps.post(input);
+        LoanResponse post = ls.post(input);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(post);
-
     }
 
-    @Operation(description = "Update Product", summary = "Return 400 if the bussines validation is wrong")
+    @Operation(description = "Update Loan", summary = "Return 400 if the business validation is wrong")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Success"),
         @ApiResponse(responseCode = "500", description = "Internal error")})
     @PutMapping("/{id}")
-    public ResponseEntity<ProductResponse> put(@PathVariable(name = "id") long id, @RequestBody ProductRequest input) throws BussinesRuleException {
+    public ResponseEntity<LoanResponse> put(@PathVariable(name = "id") long id, @RequestBody LoanRequest input) throws BussinesRuleException {
 
-        ProductResponse put = ps.put(id, input);
+        LoanResponse put = ls.put(id, input);
 
         return ResponseEntity.ok(put);
-
     }
 
-    @Operation(description = "Delete Product", summary = "Return 404 if the product not found")
+    @Operation(description = "Delete Loan", summary = "Return 404 if the loan is not found")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Success"),
         @ApiResponse(responseCode = "500", description = "Internal error")})
     @DeleteMapping("/{id}")
-    public ResponseEntity<ProductResponse> delete(@PathVariable(name = "id") long id) throws BussinesRuleException {
+    public ResponseEntity<LoanResponse> delete(@PathVariable(name = "id") long id) throws BussinesRuleException {
 
-        ProductResponse delete = ps.delete(id);
+        LoanResponse delete = ls.delete(id);
 
         return ResponseEntity.ok(delete);
-
     }
-
 }

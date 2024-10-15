@@ -24,7 +24,7 @@ public class CustomerResponse {
     @Schema(name = "surname", required = true, example = "Sánchez", defaultValue = "Sánchez", description = "Surname of customer")
     private String surname;
 
-    @Schema(name = "partnerId", required = true, example = "1", defaultValue = "1", description = "Id represent the relation whit partner")
+    @Schema(name = "partner_Id", required = true, example = "1", defaultValue = "1", description = "Id represent the relation whit partner")
 
-    private String partnerId;
+    private long partner_Id;
 }

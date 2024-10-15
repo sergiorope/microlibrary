@@ -15,7 +15,7 @@ public interface CustomerRequestMapper {
         @Mapping(target = "id", ignore = true),
         @Mapping(source = "name", target = "name"),
         @Mapping(source = "surname", target = "surname"),
-        @Mapping(source = "partnerId", target = "partnerId")
+        @Mapping(source = "partner_Id", target = "partner_Id")
     })
     Customer CustomerRequestToCustomer(CustomerRequest source);
 

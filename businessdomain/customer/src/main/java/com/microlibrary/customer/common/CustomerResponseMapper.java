@@ -24,7 +24,7 @@ public interface CustomerResponseMapper {
         @Mapping(source = "id", target = "id"),
         @Mapping(source = "name", target = "name"),
         @Mapping(source = "surname", target = "surname"),
-        @Mapping(source = "partnerId", target = "partnerId")
+        @Mapping(source = "partner_Id", target = "partner_Id")
        
     })
     CustomerResponse CustomerToCustomerResponse(Customer source);

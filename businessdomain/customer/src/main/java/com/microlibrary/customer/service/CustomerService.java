@@ -4,6 +4,7 @@
  */
 package com.microlibrary.customer.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.microlibrary.customer.common.CustomerRequestMapper;
 import com.microlibrary.customer.common.CustomerResponseMapper;
 import com.microlibrary.customer.dto.CustomerRequest;
@@ -11,11 +12,26 @@ import com.microlibrary.customer.dto.CustomerResponse;
 import com.microlibrary.customer.entities.Customer;
 import com.microlibrary.customer.exception.BussinesRuleException;
 import com.microlibrary.customer.repository.CustomerRepository;
+import io.netty.channel.ChannelOption;
+import io.netty.channel.epoll.EpollChannelOption;
+import io.netty.handler.timeout.ReadTimeoutHandler;
+import io.netty.handler.timeout.WriteTimeoutHandler;
+import java.net.UnknownHostException;
+import java.time.Duration;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
+import reactor.netty.http.client.HttpClient;
 
 /**
  *
@@ -32,6 +48,24 @@ public class CustomerService {
 
     @Autowired
     CustomerResponseMapper prp;
+
+    @Autowired
+    private WebClient.Builder webClientBuilder;
+
+    HttpClient client = HttpClient.create()
+            //Connection Timeout: is a period within which a connection between a client and a server must be established
+            .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5000)
+            .option(ChannelOption.SO_KEEPALIVE, true)
+            .option(EpollChannelOption.TCP_KEEPIDLE, 300)
+            .option(EpollChannelOption.TCP_KEEPINTVL, 60)
+            //Response Timeout: The maximun time we wait to receive a response after sending a request
+            .responseTimeout(Duration.ofSeconds(1))
+            // Read and Write Timeout: A read timeout occurs when no data was read within a certain 
+            //period of time, while the write timeout when a write operation cannot finish at a specific time
+            .doOnConnected(connection -> {
+                connection.addHandlerLast(new ReadTimeoutHandler(5000, TimeUnit.MILLISECONDS));
+                connection.addHandlerLast(new WriteTimeoutHandler(5000, TimeUnit.MILLISECONDS));
+            });
 
     public List<CustomerResponse> getAll() throws BussinesRuleException {
 
@@ -63,16 +97,20 @@ public class CustomerService {
         return findIdResponse;
     }
 
-    /*
-    public CustomerResponse getPartner(long partner_Id) throws BussinesRuleException {
+    public String getPartner(long id) throws BussinesRuleException, UnknownHostException {
+        
+       CustomerResponse customer = getById(id);
 
-    
-        return null;
+        String PartnerName = getPartnerName(customer.getPartner_Id());
 
-    
+        if (PartnerName.isBlank()) {
+            throw new BussinesRuleException("404", "Partner associate not found", HttpStatus.NOT_FOUND);
+        }
+
+        return PartnerName;
+
     }
 
-     */
     public CustomerResponse post(CustomerRequest input) throws BussinesRuleException {
 
         if (input == null || input.getName() == null || input.getSurname() == null) {
@@ -100,7 +138,7 @@ public class CustomerService {
 
         put.setName(input.getName());
         put.setSurname(input.getSurname());
-        put.setPartnerId(input.getPartnerId());
+        put.setPartner_Id(input.getPartner_Id());
 
         if (put.getName().isEmpty() || put.getSurname().isEmpty()) {
 
@@ -134,5 +172,36 @@ public class CustomerService {
         return customerResponse;
 
     }
+
+    private String getPartnerName(long id) throws UnknownHostException {
+    String name = "";
+
+    try {
+        // Configura el WebClient con la URL base correcta
+        WebClient build = webClientBuilder.clientConnector(new ReactorClientHttpConnector(client))
+                .baseUrl("http://localhost:8082") // Cambia la URL base a localhost:8082
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .build();
+
+        // Cambia la URI a /partner/{id} como se indica
+        JsonNode block = build.method(HttpMethod.GET).uri("/partner/" + id) // Accede al endpoint correcto
+                .retrieve()
+                .bodyToMono(JsonNode.class)
+                .block();
+
+        // Obtiene el nombre del partner
+        name = block.get("name").asText();
+    } catch (WebClientResponseException ex) {
+        // Manejo de excepciones para diagnosticar el error
+        System.out.println("Error response body: " + ex.getResponseBodyAsString());
+        if (ex.getStatusCode() == HttpStatus.NOT_FOUND) {
+            return "";
+        } else {
+            throw new UnknownHostException("Error: " + ex.getMessage() + ", Status Code: " + ex.getStatusCode());
+        }
+    }
+    return name;
+}
+
 
 }
