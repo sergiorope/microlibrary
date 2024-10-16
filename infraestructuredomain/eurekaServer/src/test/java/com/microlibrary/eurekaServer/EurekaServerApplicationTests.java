@@ -1,4 +1,4 @@
-package com.microlibrary.partner;
+package com.microlibrary.eurekaServer;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -6,7 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 /*
 @SpringBootTest
-class PartnerApplicationTests {
+class EurekaServerApplicationTests {
 
 	@Test
 	void contextLoads() {

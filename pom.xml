@@ -12,6 +12,7 @@
     
     <modules>
         <module>businessdomain</module>
+        <module>infraestructuredomain</module>
     </modules>
 
     <properties>
@@ -21,6 +22,7 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target> 
         <spring-boot.version>3.3.4</spring-boot.version>
+        <spring-cloud.version>2023.0.3</spring-cloud.version>
     </properties>
     
     

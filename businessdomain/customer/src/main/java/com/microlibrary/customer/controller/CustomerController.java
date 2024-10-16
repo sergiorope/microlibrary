@@ -63,6 +63,19 @@ public class CustomerController {
         return ResponseEntity.ok(getById);
 
     }
+    
+    @Operation(description = "Find Customer", summary = "Return 404 if the customer not found")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Success"),
+        @ApiResponse(responseCode = "500", description = "Internal error")})
+    @GetMapping("/customerPartner/{id}")
+    public ResponseEntity<?> getByPartnerId(@PathVariable(name = "partner_Id") long partner_Id) throws BussinesRuleException {
+
+        List<CustomerResponse> getById = cs.getByPartnerId(partner_Id);
+
+        return ResponseEntity.ok(getById);
+
+    }
 
     @Operation(description = "Find Partner of the Customer", summary = "Return 404 if the partner not found")
     @ApiResponses(value = {

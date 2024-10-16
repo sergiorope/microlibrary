@@ -1,30 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
+<project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    
     <parent>
-        <groupId>com.microlibrary</groupId> 
-        <artifactId>businessdomain</artifactId>
-        <version>1.0-SNAPSHOT</version> 
+        <groupId>com.microlibrary</groupId>
+        <artifactId>infraestructuredomain</artifactId>
+        <version>1.0-SNAPSHOT</version>
     </parent>
     
     <groupId>com.microlibrary</groupId>
-    <artifactId>product</artifactId>
+    <artifactId>eurekaServer</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>product</name>
-    <description>Demo project for Spring Boot</description>
+    <name>eurekaServer</name>
+    <description>Spring Boot project for Eureka Server</description>
     
-         <dependencies>
+    <dependencies>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-            <version>4.1.3</version> 
-        </dependency>  
+            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
-  
-  
-   
+    
     <build>
         <plugins>
             <plugin>

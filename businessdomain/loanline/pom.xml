@@ -1,26 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
         <groupId>com.microlibrary</groupId> <!-- Corrección aquí -->
         <artifactId>businessdomain</artifactId>
         <version>1.0-SNAPSHOT</version> <!-- Asegúrate de que esta versión sea la correcta -->
     </parent>
-	<groupId>com.microlibrary</groupId>
-	<artifactId>loanline</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>loanline</name>
-	<description>Demo project for Spring Boot</description>
+    <groupId>com.microlibrary</groupId>
+    <artifactId>loanline</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>loanline</name>
+    <description>Demo project for Spring Boot</description>
+        
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            <version>4.1.3</version> 
+        </dependency> 
+    </dependencies>
 	
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

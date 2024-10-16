@@ -4,6 +4,7 @@
  */
 package com.microlibrary.partner.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.microlibrary.partner.common.PartnerRequestMapper;
 import com.microlibrary.partner.common.PartnerResponseMapper;
 import com.microlibrary.partner.dto.PartnerRequest;
@@ -11,11 +12,28 @@ import com.microlibrary.partner.dto.PartnerResponse;
 import com.microlibrary.partner.entities.Partner;
 import com.microlibrary.partner.exception.BussinesRuleException;
 import com.microlibrary.partner.repository.PartnerRepository;
+import io.netty.channel.ChannelOption;
+import io.netty.channel.epoll.EpollChannelOption;
+import io.netty.handler.timeout.ReadTimeoutHandler;
+import io.netty.handler.timeout.WriteTimeoutHandler;
+import java.net.UnknownHostException;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
+import reactor.netty.http.client.HttpClient;
 
 /**
  *
@@ -32,6 +50,26 @@ public class PartnerService {
 
     @Autowired
     PartnerResponseMapper prp;
+    
+    
+      @Autowired
+    private WebClient.Builder webClientBuilder;
+
+    HttpClient client = HttpClient.create()
+            //Connection Timeout: is a period within which a connection between a client and a server must be established
+            .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5000)
+            .option(ChannelOption.SO_KEEPALIVE, true)
+            .option(EpollChannelOption.TCP_KEEPIDLE, 300)
+            .option(EpollChannelOption.TCP_KEEPINTVL, 60)
+            //Response Timeout: The maximun time we wait to receive a response after sending a request
+            .responseTimeout(Duration.ofSeconds(1))
+            // Read and Write Timeout: A read timeout occurs when no data was read within a certain 
+            //period of time, while the write timeout when a write operation cannot finish at a specific time
+            .doOnConnected(connection -> {
+                connection.addHandlerLast(new ReadTimeoutHandler(5000, TimeUnit.MILLISECONDS));
+                connection.addHandlerLast(new WriteTimeoutHandler(5000, TimeUnit.MILLISECONDS));
+                
+                    });
 
     public List<PartnerResponse> getAll() throws BussinesRuleException {
 
@@ -116,4 +154,40 @@ public class PartnerService {
 
         return partnerResponse;
     }
+    
+    private List<String> getCustomerNames(long id) throws UnknownHostException {
+    List<String> names = new ArrayList<>();
+
+    try {
+        // Configura el WebClient con la URL base correcta
+        WebClient build = webClientBuilder.clientConnector(new ReactorClientHttpConnector(client))
+                .baseUrl("http://microlibrary-customer/customer/customerPartner")
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .defaultUriVariables(Collections.singletonMap("url", "http://microlibrary-customer/customer/customerPartner"))
+                .build();
+
+        // Cambia a una lista de JsonNodes
+        List<JsonNode> response = build.method(HttpMethod.GET).uri("/" + id)
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<List<JsonNode>>() {})
+                .block();
+
+        // Itera sobre los objetos para obtener los nombres
+        for (JsonNode jsonNode : response) {
+            String name = jsonNode.get("name").asText();
+            names.add(name);
+        }
+
+    } catch (WebClientResponseException ex) {
+        // Manejo de excepciones para diagnosticar el error
+        System.out.println("Error response body: " + ex.getResponseBodyAsString());
+        if (ex.getStatusCode() == HttpStatus.NOT_FOUND) {
+            return Collections.emptyList();
+        } else {
+            throw new UnknownHostException("Error: " + ex.getMessage() + ", Status Code: " + ex.getStatusCode());
+        }
+    }
+    return names;
+}
+
 }

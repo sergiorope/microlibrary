@@ -96,10 +96,23 @@ public class CustomerService {
 
         return findIdResponse;
     }
+    
+    public List<CustomerResponse> getByPartnerId(long partner_Id) throws BussinesRuleException {
+
+        List<Customer> findById = pr.findByPartnerId(partner_Id);
+
+        if (!findById.isEmpty()) {
+            throw new BussinesRuleException("404", "customers not found", HttpStatus.NOT_FOUND);
+        }
+
+        List<CustomerResponse> customerList = prp.CustomerListToCustomerResponseList(findById);
+
+        return customerList;
+    }
 
     public String getPartner(long id) throws BussinesRuleException, UnknownHostException {
-        
-       CustomerResponse customer = getById(id);
+
+        CustomerResponse customer = getById(id);
 
         String PartnerName = getPartnerName(customer.getPartner_Id());
 
@@ -174,34 +187,33 @@ public class CustomerService {
     }
 
     private String getPartnerName(long id) throws UnknownHostException {
-    String name = "";
+        String name = "";
 
-    try {
-        // Configura el WebClient con la URL base correcta
-        WebClient build = webClientBuilder.clientConnector(new ReactorClientHttpConnector(client))
-                .baseUrl("http://localhost:8082") // Cambia la URL base a localhost:8082
-                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .build();
+        try {
+            // Configura el WebClient con la URL base correcta
+            WebClient build = webClientBuilder.clientConnector(new ReactorClientHttpConnector(client))
+                    .baseUrl("http://microlibrary-partner/partner")
+                    .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                    .defaultUriVariables(Collections.singletonMap("url", "http://microlibrary-partner/partner"))
+                    .build();
 
-        // Cambia la URI a /partner/{id} como se indica
-        JsonNode block = build.method(HttpMethod.GET).uri("/partner/" + id) // Accede al endpoint correcto
-                .retrieve()
-                .bodyToMono(JsonNode.class)
-                .block();
+            JsonNode block = build.method(HttpMethod.GET).uri("/" + id)
+                    .retrieve()
+                    .bodyToMono(JsonNode.class)
+                    .block();
 
-        // Obtiene el nombre del partner
-        name = block.get("name").asText();
-    } catch (WebClientResponseException ex) {
-        // Manejo de excepciones para diagnosticar el error
-        System.out.println("Error response body: " + ex.getResponseBodyAsString());
-        if (ex.getStatusCode() == HttpStatus.NOT_FOUND) {
-            return "";
-        } else {
-            throw new UnknownHostException("Error: " + ex.getMessage() + ", Status Code: " + ex.getStatusCode());
+            // Obtiene el nombre del partner
+            name = block.get("name").asText();
+        } catch (WebClientResponseException ex) {
+            // Manejo de excepciones para diagnosticar el error
+            System.out.println("Error response body: " + ex.getResponseBodyAsString());
+            if (ex.getStatusCode() == HttpStatus.NOT_FOUND) {
+                return "";
+            } else {
+                throw new UnknownHostException("Error: " + ex.getMessage() + ", Status Code: " + ex.getStatusCode());
+            }
         }
+        return name;
     }
-    return name;
-}
-
 
 }
