@@ -28,6 +28,6 @@ public class Loan {
     private String start_date;
     private String end_date;
     private String status;
-    private String customer_Id;
+    private long customer_Id;
 
 }

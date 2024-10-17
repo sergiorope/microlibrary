@@ -57,6 +57,13 @@ public class LoanService {
         return findIdResponse;
     }
 
+    public List<String> getByCustomerId(long customer_Id) throws BussinesRuleException {
+
+        List<String> findById = pr.findByCustomerId(customer_Id);
+
+        return findById;
+    }
+
     public LoanResponse post(LoanRequest input) throws BussinesRuleException {
 
         if (input == null || input.getStart_date() == null || input.getEnd_date() == null

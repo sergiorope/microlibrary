@@ -61,6 +61,18 @@ public class LoanController {
 
         return ResponseEntity.ok(getById);
     }
+    
+    @Operation(description = "Find Loans by ID customer", summary = "Return 404 if the loan is not found")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Success"),
+        @ApiResponse(responseCode = "500", description = "Internal error")})
+    @GetMapping("/by-customer/{id}")
+    public ResponseEntity<?> getByCustomerId(@PathVariable(name = "id") long customer_Id) throws BussinesRuleException {
+
+        List<String> getByCustomerId = ls.getByCustomerId(customer_Id);
+
+        return ResponseEntity.ok(getByCustomerId);
+    }
 
     @Operation(description = "Insert Loan", summary = "Return 400 if the business validation is wrong")
     @ApiResponses(value = {

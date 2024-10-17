@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.net.UnknownHostException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -55,18 +56,6 @@ public class PartnerController {
         @ApiResponse(responseCode = "500", description = "Internal error")})
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable(name = "id") long id) throws BussinesRuleException {
-
-        PartnerResponse getById = ps.getById(id);
-
-        return ResponseEntity.ok(getById);
-    }
-    
-    @Operation(description = "Find Customers of the partner", summary = "Return 404 if the partner not found")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Success"),
-        @ApiResponse(responseCode = "500", description = "Internal error")})
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getCustomers(@PathVariable(name = "id") long id) throws BussinesRuleException {
 
         PartnerResponse getById = ps.getById(id);
 

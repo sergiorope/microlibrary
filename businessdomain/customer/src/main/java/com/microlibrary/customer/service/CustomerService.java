@@ -97,17 +97,14 @@ public class CustomerService {
         return findIdResponse;
     }
     
-    public List<CustomerResponse> getByPartnerId(long partner_Id) throws BussinesRuleException {
+    public List<String> getByPartnerId(long partner_Id) throws BussinesRuleException {
 
-        List<Customer> findById = pr.findByPartnerId(partner_Id);
+        List<String> findById = pr.findByPartnerId(partner_Id);
 
-        if (!findById.isEmpty()) {
-            throw new BussinesRuleException("404", "customers not found", HttpStatus.NOT_FOUND);
-        }
+       
 
-        List<CustomerResponse> customerList = prp.CustomerListToCustomerResponseList(findById);
 
-        return customerList;
+        return findById;
     }
 
     public String getPartner(long id) throws BussinesRuleException, UnknownHostException {
@@ -215,5 +212,6 @@ public class CustomerService {
         }
         return name;
     }
-
+    
+    
 }

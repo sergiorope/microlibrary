@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse; 
 import io.swagger.v3.oas.annotations.responses.ApiResponses; 
 import io.swagger.v3.oas.annotations.tags.Tag; 
+import java.net.UnknownHostException;
 import java.util.List; 
 import org.springframework.beans.factory.annotation.Autowired; 
 import org.springframework.http.HttpStatus; 
@@ -52,6 +53,31 @@ public class LoanlineController {
         LoanlineResponse getById = ps.getById(id);
 
         return ResponseEntity.ok(getById);
+    }
+    
+    @Operation(description = "Find Loanlines by ID loan", summary = "Return 404 if the loanline not found")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Success"),
+        @ApiResponse(responseCode = "500", description = "Internal error")})
+    @GetMapping("/by-loan/{id}")
+    public ResponseEntity<?> getByLoanId(@PathVariable(name = "id") long loan_Id) throws BussinesRuleException {
+
+        List<LoanlineResponse> getById = ps.getByLoanId(loan_Id);
+
+        return ResponseEntity.ok(getById);
+    }
+    
+    
+    @Operation(description = "Find Loanline", summary = "Return 404 if the loanline not found")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Success"),
+        @ApiResponse(responseCode = "500", description = "Internal error")})
+    @GetMapping("/product/{id}")
+    public ResponseEntity<?> getProduct(@PathVariable(name = "id") long id) throws BussinesRuleException, UnknownHostException {
+
+        String productName = ps.getProduct(id);
+
+        return ResponseEntity.ok(productName);
     }
 
     @Operation(description = "Insert Loanline", summary = "Return 400 if the business validation is wrong")

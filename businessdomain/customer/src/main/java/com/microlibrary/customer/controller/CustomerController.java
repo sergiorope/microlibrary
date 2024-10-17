@@ -64,18 +64,22 @@ public class CustomerController {
 
     }
     
-    @Operation(description = "Find Customer", summary = "Return 404 if the customer not found")
+    
+    
+    @Operation(description = "Find Customers by ID partner", summary = "Return 404 if the customer not found")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Success"),
         @ApiResponse(responseCode = "500", description = "Internal error")})
-    @GetMapping("/customerPartner/{id}")
-    public ResponseEntity<?> getByPartnerId(@PathVariable(name = "partner_Id") long partner_Id) throws BussinesRuleException {
+    @GetMapping("/by-partner/{id}")
+    public ResponseEntity<?> getByPartnerId(@PathVariable(name = "id") long partner_Id) throws BussinesRuleException {
 
-        List<CustomerResponse> getById = cs.getByPartnerId(partner_Id);
+        List<String> getById = cs.getByPartnerId(partner_Id);
 
         return ResponseEntity.ok(getById);
 
     }
+
+
 
     @Operation(description = "Find Partner of the Customer", summary = "Return 404 if the partner not found")
     @ApiResponses(value = {
@@ -86,6 +90,8 @@ public class CustomerController {
         String partnerName = cs.getPartner(id);
         return ResponseEntity.ok(partnerName);
     }
+    
+    
 
     @Operation(description = "Insert Customer", summary = "Return 400 if the bussines validation is wrong")
     @ApiResponses(value = {

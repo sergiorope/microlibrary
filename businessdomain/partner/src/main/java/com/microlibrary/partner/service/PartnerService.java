@@ -50,9 +50,8 @@ public class PartnerService {
 
     @Autowired
     PartnerResponseMapper prp;
-    
-    
-      @Autowired
+
+    @Autowired
     private WebClient.Builder webClientBuilder;
 
     HttpClient client = HttpClient.create()
@@ -68,8 +67,8 @@ public class PartnerService {
             .doOnConnected(connection -> {
                 connection.addHandlerLast(new ReadTimeoutHandler(5000, TimeUnit.MILLISECONDS));
                 connection.addHandlerLast(new WriteTimeoutHandler(5000, TimeUnit.MILLISECONDS));
-                
-                    });
+
+            });
 
     public List<PartnerResponse> getAll() throws BussinesRuleException {
 
@@ -98,6 +97,7 @@ public class PartnerService {
 
         return findIdResponse;
     }
+
 
     public PartnerResponse post(PartnerRequest input) throws BussinesRuleException {
 
@@ -154,40 +154,7 @@ public class PartnerService {
 
         return partnerResponse;
     }
+
     
-    private List<String> getCustomerNames(long id) throws UnknownHostException {
-    List<String> names = new ArrayList<>();
-
-    try {
-        // Configura el WebClient con la URL base correcta
-        WebClient build = webClientBuilder.clientConnector(new ReactorClientHttpConnector(client))
-                .baseUrl("http://microlibrary-customer/customer/customerPartner")
-                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .defaultUriVariables(Collections.singletonMap("url", "http://microlibrary-customer/customer/customerPartner"))
-                .build();
-
-        // Cambia a una lista de JsonNodes
-        List<JsonNode> response = build.method(HttpMethod.GET).uri("/" + id)
-                .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<List<JsonNode>>() {})
-                .block();
-
-        // Itera sobre los objetos para obtener los nombres
-        for (JsonNode jsonNode : response) {
-            String name = jsonNode.get("name").asText();
-            names.add(name);
-        }
-
-    } catch (WebClientResponseException ex) {
-        // Manejo de excepciones para diagnosticar el error
-        System.out.println("Error response body: " + ex.getResponseBodyAsString());
-        if (ex.getStatusCode() == HttpStatus.NOT_FOUND) {
-            return Collections.emptyList();
-        } else {
-            throw new UnknownHostException("Error: " + ex.getMessage() + ", Status Code: " + ex.getStatusCode());
-        }
-    }
-    return names;
-}
 
 }
