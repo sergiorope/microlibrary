@@ -36,7 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PartnerController {
 
     @Autowired
-    PartnerService ps;
+    PartnerService pas;
 
     @Operation(description = "FindAll Partners", summary = "Return 404 if no partners found")
     @ApiResponses(value = {
@@ -45,19 +45,19 @@ public class PartnerController {
     @GetMapping("/list")
     public ResponseEntity<?> getAll() throws BussinesRuleException {
 
-        List<PartnerResponse> findAll = ps.getAll();
+        List<PartnerResponse> findAll = pas.getAll();
 
         return ResponseEntity.ok(findAll);
     }
 
-    @Operation(description = "Find Partner", summary = "Return 404 if the partner not found")
+    @Operation(description = "Find Partner by ID", summary = "Return 404 if the partner not found")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Success"),
         @ApiResponse(responseCode = "500", description = "Internal error")})
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable(name = "id") long id) throws BussinesRuleException {
 
-        PartnerResponse getById = ps.getById(id);
+        PartnerResponse getById = pas.getById(id);
 
         return ResponseEntity.ok(getById);
     }
@@ -69,7 +69,7 @@ public class PartnerController {
     @PostMapping("/post")
     public ResponseEntity<PartnerResponse> post(PartnerRequest input) throws BussinesRuleException {
 
-        PartnerResponse post = ps.post(input);
+        PartnerResponse post = pas.post(input);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(post);
     }
@@ -81,7 +81,7 @@ public class PartnerController {
     @PutMapping("/{id}")
     public ResponseEntity<PartnerResponse> put(@PathVariable(name = "id") long id, @RequestBody PartnerRequest input) throws BussinesRuleException {
 
-        PartnerResponse put = ps.put(id, input);
+        PartnerResponse put = pas.put(id, input);
 
         return ResponseEntity.ok(put);
     }
@@ -93,7 +93,7 @@ public class PartnerController {
     @DeleteMapping("/{id}")
     public ResponseEntity<PartnerResponse> delete(@PathVariable(name = "id") long id) throws BussinesRuleException {
 
-        PartnerResponse delete = ps.delete(id);
+        PartnerResponse delete = pas.delete(id);
 
         return ResponseEntity.ok(delete);
     }

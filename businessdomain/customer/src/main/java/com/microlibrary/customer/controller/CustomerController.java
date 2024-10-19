@@ -51,7 +51,7 @@ public class CustomerController {
 
     }
 
-    @Operation(description = "Find Customer", summary = "Return 404 if the customer not found")
+    @Operation(description = "Find Customer by ID", summary = "Return 404 if the customer not found")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Success"),
         @ApiResponse(responseCode = "500", description = "Internal error")})
@@ -73,7 +73,7 @@ public class CustomerController {
     @GetMapping("/by-partner/{id}")
     public ResponseEntity<?> getByPartnerId(@PathVariable(name = "id") long partner_Id) throws BussinesRuleException {
 
-        List<String> getById = cs.getByPartnerId(partner_Id);
+        List<CustomerResponse> getById = cs.getByPartnerId(partner_Id);
 
         return ResponseEntity.ok(getById);
 
@@ -81,14 +81,14 @@ public class CustomerController {
 
 
 
-    @Operation(description = "Find Partner of the Customer", summary = "Return 404 if the partner not found")
+    @Operation(description = "Find partner name from ID of customer", summary = "Return 404 if the partner not found")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Success"),
         @ApiResponse(responseCode = "500", description = "Internal error")})
     @GetMapping("/partner/{id}")
     public ResponseEntity<?> getPartner(@PathVariable(name = "id") long id) throws BussinesRuleException, UnknownHostException {
-        String partnerName = cs.getPartner(id);
-        return ResponseEntity.ok(partnerName);
+        String partner = cs.getPartner(id);
+        return ResponseEntity.ok(partner);
     }
     
     

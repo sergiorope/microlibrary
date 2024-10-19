@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 public class LoanService {
 
     @Autowired
-    LoanRepository pr;
+    LoanRepository lr;
 
     @Autowired
     LoanRequestMapper prq;
@@ -31,7 +31,7 @@ public class LoanService {
 
     public List<LoanResponse> getAll() throws BussinesRuleException {
 
-        List<Loan> findAll = pr.findAll();
+        List<Loan> findAll = lr.findAll();
 
         if (findAll.isEmpty()) {
             throw new BussinesRuleException("404", "Loans not found", HttpStatus.NOT_FOUND);
@@ -44,7 +44,7 @@ public class LoanService {
 
     public LoanResponse getById(long id) throws BussinesRuleException {
 
-        Optional<Loan> findById = pr.findById(id);
+        Optional<Loan> findById = lr.findById(id);
 
         if (!findById.isPresent()) {
             throw new BussinesRuleException("404", "Loan not found", HttpStatus.NOT_FOUND);
@@ -57,11 +57,18 @@ public class LoanService {
         return findIdResponse;
     }
 
-    public List<String> getByCustomerId(long customer_Id) throws BussinesRuleException {
+    public List<LoanResponse> getByCustomerId(long customer_Id) throws BussinesRuleException {
 
-        List<String> findById = pr.findByCustomerId(customer_Id);
+        List<Loan> findById = lr.findByCustomerId(customer_Id);
+        
+         if(findById.isEmpty()){
+            
+            throw new BussinesRuleException("404", "loans not found", HttpStatus.NOT_FOUND);
+        }
+        
+        List<LoanResponse>loanResponseList=prp.LoanListToLoanResponseList(findById);
 
-        return findById;
+        return loanResponseList;
     }
 
     public LoanResponse post(LoanRequest input) throws BussinesRuleException {
@@ -74,7 +81,7 @@ public class LoanService {
 
         Loan post = prq.LoanRequestToLoan(input);
 
-        pr.save(post);
+        lr.save(post);
 
         LoanResponse loanResponse = prp.LoanToLoanResponse(post);
 
@@ -100,7 +107,7 @@ public class LoanService {
 
         Loan loan = prp.LoanResponseToLoan(put);
 
-        pr.save(loan);
+        lr.save(loan);
 
         LoanResponse loanResponse = prp.LoanToLoanResponse(loan);
 
@@ -117,7 +124,7 @@ public class LoanService {
 
         Loan loan = prp.LoanResponseToLoan(delete);
 
-        pr.delete(loan);
+        lr.delete(loan);
 
         LoanResponse loanResponse = prp.LoanToLoanResponse(loan);
 

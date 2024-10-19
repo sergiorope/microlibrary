@@ -50,7 +50,7 @@ public class LoanController {
         return ResponseEntity.ok(findAll);
     }
 
-    @Operation(description = "Find Loan", summary = "Return 404 if the loan is not found")
+    @Operation(description = "Find Loan by ID", summary = "Return 404 if the loan is not found")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Success"),
         @ApiResponse(responseCode = "500", description = "Internal error")})
@@ -69,7 +69,7 @@ public class LoanController {
     @GetMapping("/by-customer/{id}")
     public ResponseEntity<?> getByCustomerId(@PathVariable(name = "id") long customer_Id) throws BussinesRuleException {
 
-        List<String> getByCustomerId = ls.getByCustomerId(customer_Id);
+        List<LoanResponse> getByCustomerId = ls.getByCustomerId(customer_Id);
 
         return ResponseEntity.ok(getByCustomerId);
     }

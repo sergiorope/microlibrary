@@ -41,7 +41,7 @@ import reactor.netty.http.client.HttpClient;
 public class CustomerService {
 
     @Autowired
-    CustomerRepository pr;
+    CustomerRepository cr;
 
     @Autowired
     CustomerRequestMapper prq;
@@ -69,7 +69,7 @@ public class CustomerService {
 
     public List<CustomerResponse> getAll() throws BussinesRuleException {
 
-        List<Customer> findAll = pr.findAll();
+        List<Customer> findAll = cr.findAll();
 
         if (findAll.isEmpty()) {
 
@@ -84,7 +84,7 @@ public class CustomerService {
 
     public CustomerResponse getById(long id) throws BussinesRuleException {
 
-        Optional<Customer> findById = pr.findById(id);
+        Optional<Customer> findById = cr.findById(id);
 
         if (!findById.isPresent()) {
             throw new BussinesRuleException("404", "customer not found", HttpStatus.NOT_FOUND);
@@ -97,14 +97,21 @@ public class CustomerService {
         return findIdResponse;
     }
     
-    public List<String> getByPartnerId(long partner_Id) throws BussinesRuleException {
+    public List<CustomerResponse> getByPartnerId(long partner_Id) throws BussinesRuleException {
 
-        List<String> findById = pr.findByPartnerId(partner_Id);
+        List<Customer> findById = cr.findByPartnerId(partner_Id);
+        
+        if(findById.isEmpty()){
+            
+            throw new BussinesRuleException("404", "customers not found", HttpStatus.NOT_FOUND);
+        }
+        
+        List<CustomerResponse>customerResponseList=prp.CustomerListToCustomerResponseList(findById);
 
        
 
 
-        return findById;
+        return customerResponseList;
     }
 
     public String getPartner(long id) throws BussinesRuleException, UnknownHostException {
@@ -130,7 +137,7 @@ public class CustomerService {
 
         Customer post = prq.CustomerRequestToCustomer(input);
 
-        pr.save(post);
+        cr.save(post);
 
         CustomerResponse customerResponse = prp.CustomerToCustomerResponse(post);
 
@@ -157,7 +164,7 @@ public class CustomerService {
 
         Customer customer = prp.CustomerResponseToCustomer(put);
 
-        pr.save(customer);
+        cr.save(customer);
 
         CustomerResponse customerResponse = prp.CustomerToCustomerResponse(customer);
 
@@ -175,7 +182,7 @@ public class CustomerService {
 
         Customer customer = prp.CustomerResponseToCustomer(delete);
 
-        pr.delete(customer);
+        cr.delete(customer);
 
         CustomerResponse customerResponse = prp.CustomerToCustomerResponse(customer);
 

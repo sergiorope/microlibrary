@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoanlineController {
 
     @Autowired
-    LoanlineService ps;
+    LoanlineService lls;
 
     @Operation(description = "FindAll Loanlines", summary = "Return 404 if the loanlines not found")
     @ApiResponses(value = {
@@ -38,19 +38,19 @@ public class LoanlineController {
     @GetMapping("/list")
     public ResponseEntity<?> getAll() throws BussinesRuleException {
 
-        List<LoanlineResponse> findAll = ps.getAll();
+        List<LoanlineResponse> findAll = lls.getAll();
 
         return ResponseEntity.ok(findAll);
     }
 
-    @Operation(description = "Find Loanline", summary = "Return 404 if the loanline not found")
+    @Operation(description = "Find Loanline by ID", summary = "Return 404 if the loanline not found")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Success"),
         @ApiResponse(responseCode = "500", description = "Internal error")})
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable(name = "id") long id) throws BussinesRuleException {
 
-        LoanlineResponse getById = ps.getById(id);
+        LoanlineResponse getById = lls.getById(id);
 
         return ResponseEntity.ok(getById);
     }
@@ -62,20 +62,20 @@ public class LoanlineController {
     @GetMapping("/by-loan/{id}")
     public ResponseEntity<?> getByLoanId(@PathVariable(name = "id") long loan_Id) throws BussinesRuleException {
 
-        List<LoanlineResponse> getById = ps.getByLoanId(loan_Id);
+        List<LoanlineResponse> getById = lls.getByLoanId(loan_Id);
 
         return ResponseEntity.ok(getById);
     }
     
     
-    @Operation(description = "Find Loanline", summary = "Return 404 if the loanline not found")
+    @Operation(description = "Find product name from ID of loanline", summary = "Return 404 if the loanline not found")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Success"),
         @ApiResponse(responseCode = "500", description = "Internal error")})
     @GetMapping("/product/{id}")
     public ResponseEntity<?> getProduct(@PathVariable(name = "id") long id) throws BussinesRuleException, UnknownHostException {
 
-        String productName = ps.getProduct(id);
+        String productName = lls.getProduct(id);
 
         return ResponseEntity.ok(productName);
     }
@@ -87,7 +87,7 @@ public class LoanlineController {
     @PostMapping("/post")
     public ResponseEntity<LoanlineResponse> post(@RequestBody LoanlineRequest input) throws BussinesRuleException {
 
-        LoanlineResponse post = ps.post(input);
+        LoanlineResponse post = lls.post(input);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(post);
     }
@@ -99,7 +99,7 @@ public class LoanlineController {
     @PutMapping("/{id}")
     public ResponseEntity<LoanlineResponse> put(@PathVariable(name = "id") long id, @RequestBody LoanlineRequest input) throws BussinesRuleException {
 
-        LoanlineResponse put = ps.put(id, input);
+        LoanlineResponse put = lls.put(id, input);
 
         return ResponseEntity.ok(put);
     }
@@ -111,7 +111,7 @@ public class LoanlineController {
     @DeleteMapping("/{id}")
     public ResponseEntity<LoanlineResponse> delete(@PathVariable(name = "id") long id) throws BussinesRuleException {
 
-        LoanlineResponse delete = ps.delete(id);
+        LoanlineResponse delete = lls.delete(id);
 
         return ResponseEntity.ok(delete);
     }

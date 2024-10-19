@@ -37,7 +37,7 @@ import reactor.netty.http.client.HttpClient;
 public class LoanlineService { 
 
     @Autowired
-    LoanlineRepository pr; 
+    LoanlineRepository llr; 
 
     @Autowired
     LoanlineRequestMapper prq; 
@@ -67,7 +67,7 @@ public class LoanlineService {
 
     public List<LoanlineResponse> getAll() throws BussinesRuleException {
 
-        List<Loanline> findAll = pr.findAll(); // Actualizado
+        List<Loanline> findAll = llr.findAll(); // Actualizado
 
         if (findAll.isEmpty()) {
             throw new BussinesRuleException("404", "Loanlines not found", HttpStatus.NOT_FOUND); 
@@ -80,7 +80,7 @@ public class LoanlineService {
 
     public LoanlineResponse getById(long id) throws BussinesRuleException {
 
-        Optional<Loanline> findById = pr.findById(id); // Actualizado
+        Optional<Loanline> findById = llr.findById(id); // Actualizado
 
         if (!findById.isPresent()) {
             throw new BussinesRuleException("404", "Loanline not found", HttpStatus.NOT_FOUND); 
@@ -95,7 +95,12 @@ public class LoanlineService {
     
       public List<LoanlineResponse> getByLoanId(long loan_Id) throws BussinesRuleException {
 
-        List<Loanline> findById = pr.findByLoanId(loan_Id);
+        List<Loanline> findById = llr.findByLoanId(loan_Id);
+        
+         if(findById.isEmpty()){
+            
+            throw new BussinesRuleException("404", "loanline not found", HttpStatus.NOT_FOUND);
+        }
         
        List<LoanlineResponse> findByIdResponse = prp.LoanlineListToLoanlineResponseList(findById);
 
@@ -126,7 +131,7 @@ public class LoanlineService {
 
         Loanline post = prq.LoanlineRequestToLoanline(input); // Actualizado
 
-        pr.save(post);
+        llr.save(post);
 
         LoanlineResponse loanlineResponse = prp.LoanlineToLoanlineResponse(post); 
 
@@ -150,7 +155,7 @@ public class LoanlineService {
 
         Loanline loanline = prp.LoanlineResponseToLoanline(put); 
 
-        pr.save(loanline);
+        llr.save(loanline);
 
         LoanlineResponse loanlineResponse = prp.LoanlineToLoanlineResponse(loanline); 
 
@@ -167,7 +172,7 @@ public class LoanlineService {
 
         Loanline loanline = prp.LoanlineResponseToLoanline(delete);
 
-        pr.delete(loanline);
+        llr.delete(loanline);
 
         LoanlineResponse loanlineResponse = prp.LoanlineToLoanlineResponse(loanline); 
 

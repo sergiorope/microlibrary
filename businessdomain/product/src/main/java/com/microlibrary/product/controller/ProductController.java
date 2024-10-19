@@ -51,7 +51,7 @@ public class ProductController {
 
     }
 
-    @Operation(description = "Find Product", summary = "Return 404 if the product not found")
+    @Operation(description = "Find Product by ID", summary = "Return 404 if the product not found")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Success"),
         @ApiResponse(responseCode = "500", description = "Internal error")})

@@ -4,6 +4,7 @@
  */
 package com.microlibrary.customer.repository;
 
+import com.microlibrary.customer.dto.CustomerResponse;
 import com.microlibrary.customer.entities.Customer;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,6 +21,6 @@ import org.springframework.data.repository.query.Param;
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
 
-    @Query("SELECT c.name FROM Customer c WHERE c.partner_Id = :partner_Id")
-    List<String> findByPartnerId(@Param("partner_Id") Long partnerId);
+    @Query("SELECT c FROM Customer c WHERE c.partner_Id = :partner_Id")
+    List<Customer> findByPartnerId(@Param("partner_Id") Long partnerId);
 }

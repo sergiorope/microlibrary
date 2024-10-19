@@ -43,7 +43,7 @@ import reactor.netty.http.client.HttpClient;
 public class PartnerService {
 
     @Autowired
-    PartnerRepository pr;
+    PartnerRepository par;
 
     @Autowired
     PartnerRequestMapper prq;
@@ -72,7 +72,7 @@ public class PartnerService {
 
     public List<PartnerResponse> getAll() throws BussinesRuleException {
 
-        List<Partner> findAll = pr.findAll();
+        List<Partner> findAll = par.findAll();
 
         if (findAll.isEmpty()) {
             throw new BussinesRuleException("404", "Partners not found", HttpStatus.NOT_FOUND);
@@ -85,7 +85,7 @@ public class PartnerService {
 
     public PartnerResponse getById(long id) throws BussinesRuleException {
 
-        Optional<Partner> findById = pr.findById(id);
+        Optional<Partner> findById = par.findById(id);
 
         if (!findById.isPresent()) {
             throw new BussinesRuleException("404", "Partner not found", HttpStatus.NOT_FOUND);
@@ -107,7 +107,7 @@ public class PartnerService {
 
         Partner post = prq.PartnerRequestToPartner(input);
 
-        pr.save(post);
+        par.save(post);
 
         PartnerResponse partnerResponse = prp.PartnerToPartnerResponse(post);
 
@@ -131,7 +131,7 @@ public class PartnerService {
 
         Partner partner = prp.PartnerResponseToPartner(put);
 
-        pr.save(partner);
+        par.save(partner);
 
         PartnerResponse partnerResponse = prp.PartnerToPartnerResponse(partner);
 
@@ -148,7 +148,7 @@ public class PartnerService {
 
         Partner partner = prp.PartnerResponseToPartner(delete);
 
-        pr.delete(partner);
+        par.delete(partner);
 
         PartnerResponse partnerResponse = prp.PartnerToPartnerResponse(partner);
 

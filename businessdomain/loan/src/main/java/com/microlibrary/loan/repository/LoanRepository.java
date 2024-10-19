@@ -13,6 +13,6 @@ import org.springframework.data.repository.query.Param;
 public interface LoanRepository extends JpaRepository<Loan, Long> {
     
 
-    @Query("SELECT l.start_date FROM Loan l WHERE l.customer_Id = :customer_Id") 
-    List<String> findByCustomerId(@Param("customer_Id") Long customer_Id);
+    @Query("SELECT l FROM Loan l WHERE l.customer_Id = :customer_Id") 
+    List<Loan> findByCustomerId(@Param("customer_Id") Long customer_Id);
 }
