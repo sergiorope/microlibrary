@@ -67,7 +67,7 @@ public class PartnerController {
         @ApiResponse(responseCode = "200", description = "Success"),
         @ApiResponse(responseCode = "500", description = "Internal error")})
     @PostMapping("/post")
-    public ResponseEntity<PartnerResponse> post(PartnerRequest input) throws BussinesRuleException {
+    public ResponseEntity<PartnerResponse> post(@RequestBody PartnerRequest input) throws BussinesRuleException {
 
         PartnerResponse post = pas.post(input);
 

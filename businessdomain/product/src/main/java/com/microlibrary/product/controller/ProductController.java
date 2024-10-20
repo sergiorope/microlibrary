@@ -69,7 +69,7 @@ public class ProductController {
         @ApiResponse(responseCode = "200", description = "Success"),
         @ApiResponse(responseCode = "500", description = "Internal error")})
     @PostMapping("/post")
-    public ResponseEntity<ProductResponse> post(ProductRequest input) throws BussinesRuleException {
+    public ResponseEntity<ProductResponse> post(@RequestBody ProductRequest input) throws BussinesRuleException {
 
         ProductResponse post = ps.post(input);
 

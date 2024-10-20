@@ -1,0 +1,40 @@
+port: 8080
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVER:http://localhost:8252/eureka}
+    enabled: true
+
+spring:
+  application:
+    name: apigateway
+  cloud:
+    config:
+      enabled: false
+    gateway:
+      routes:
+        - id: product
+          uri: lb://microlibrary-product
+          predicates:  
+            - Path=/product/**
+            
+        - id: customer
+          uri: lb://microlibrary-customer
+          predicates:  
+            - Path=/customer/**
+            
+        - id: partner
+          uri: lb://microlibrary-partner
+          predicates:  
+            - Path=/partner/**
+            
+        - id: loan
+          uri: lb://microlibrary-loan
+          predicates:  
+            - Path=/loan/**
+            
+        - id: loanline
+          uri: lb://microlibrary-loanline
+          predicates:  
+            - Path=/loanline/**

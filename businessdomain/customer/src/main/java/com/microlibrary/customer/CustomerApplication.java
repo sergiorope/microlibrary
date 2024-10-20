@@ -13,10 +13,6 @@ public class CustomerApplication {
 		SpringApplication.run(CustomerApplication.class, args);
 	}
         
-        @Bean
-        @LoadBalanced
-        public WebClient.Builder loadBalancedWebClientBuilder(){
-            return WebClient.builder();
-        }
+    
 
 }

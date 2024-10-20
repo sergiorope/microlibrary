@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import java.net.UnknownHostException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,7 +99,7 @@ public class CustomerController {
         @ApiResponse(responseCode = "200", description = "Success"),
         @ApiResponse(responseCode = "500", description = "Internal error")})
     @PostMapping("/post")
-    public ResponseEntity<CustomerResponse> post(CustomerRequest input) throws BussinesRuleException {
+    public ResponseEntity<CustomerResponse> post(@RequestBody CustomerRequest input) throws BussinesRuleException {
 
         CustomerResponse post = cs.post(input);
 

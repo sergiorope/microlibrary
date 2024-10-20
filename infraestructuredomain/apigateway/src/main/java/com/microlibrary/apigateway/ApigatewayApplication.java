@@ -1,15 +1,13 @@
-package com.microlibrary.product;
+package com.microlibrary.apigateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ProductApplication {
+public class ApigatewayApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ProductApplication.class, args);
+		SpringApplication.run(ApigatewayApplication.class, args);
 	}
-        
-       
 
 }
