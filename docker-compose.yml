@@ -1,0 +1,98 @@
+version: '3.8'
+
+services:
+  ##SERVICIO DE PRODUCT##
+  product:
+    container_name: microlibrary-product
+    image: sergiorodper/microlibrary:microlibrary-product-v1
+    environment:
+      - JAVA_OPTS=-Xms256M -Xmx256M
+      - EUREKA_SERVER=http://eureka:8252/eureka/
+    depends_on:
+      - mysql_db
+
+  ##SERVICIO DE CUSTOMER##
+  customer:
+    container_name: microlibrary-customer
+    image: sergiorodper/microlibrary:microlibrary-customer-v1
+    environment:
+      - JAVA_OPTS=-Xms256M -Xmx256M
+      - EUREKA_SERVER=http://eureka:8252/eureka/
+    depends_on:
+      - mysql_db
+
+  ##SERVICIO DE PARTNER##
+  partner:
+    container_name: microlibrary-partner
+    image: sergiorodper/microlibrary:microlibrary-partner-v1
+    environment:
+      - JAVA_OPTS=-Xms256M -Xmx256M
+      - EUREKA_SERVER=http://eureka:8252/eureka/
+    depends_on:
+      - mysql_db
+
+  ##SERVICIO DE LOAN##
+  loan:
+    container_name: microlibrary-loan
+    image: sergiorodper/microlibrary:microlibrary-loan-v1
+    environment:
+      - JAVA_OPTS=-Xms256M -Xmx256M
+      - EUREKA_SERVER=http://eureka:8252/eureka/
+    depends_on:
+      - mysql_db
+
+  ##SERVICIO DE LOANLINE##
+  loanline:
+    container_name: microlibrary-loanline
+    image: sergiorodper/microlibrary:microlibrary-loanline-v1
+    environment:
+      - JAVA_OPTS=-Xms256M -Xmx256M
+      - EUREKA_SERVER=http://eureka:8252/eureka/
+    depends_on:
+      - mysql_db
+
+  ##SERVICIO DE EUREKA##
+  eureka:
+    container_name: microlibrary-eureka
+    image: sergiorodper/microlibrary:microlibrary-eureka-v1
+    environment:
+      - JAVA_OPTS=-Xms256M -Xmx256M
+    ports:
+      - 8767:8252
+
+  ##SERVICIO DE APIGATEWAY##
+  apigateway:
+    container_name: microlibrary-apigateway
+    image: sergiorodper/microlibrary:microlibrary-apigateway-v1
+    environment:
+      - JAVA_OPTS=-Xms256M -Xmx256M
+      - EUREKA_SERVER=http://eureka:8252/eureka/
+    ports:
+      - 8080:8080
+
+  ##SERVICIO DE BASE DE DATOS MYSQL##
+  mysql_db:
+    container_name: mysql
+    image: mysql:latest
+    volumes:
+      - ./dbfiles:/docker-entrypoint-initdb.d  
+      - ./mysql_data:/var/lib/mysql            
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_USER: mysql
+      MYSQL_PASSWORD: qwerty
+    ports:
+      - 3306:3306  
+
+  ##SERVICIO DE ADMINISTRADOR GRAFICO DE LA BASE DE DATOS##
+  phpmyadmin:
+    image: phpmyadmin:latest
+    restart: always
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: mysql
+      PMA_PASSWORD: qwerty
+    ports:
+      - 80:80
+    depends_on:
+      - mysql_db

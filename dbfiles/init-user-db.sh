@@ -1,0 +1,20 @@
+#!/bin/bash
+
+mysql -u root -p$MYSQL_ROOT_PASSWORD <<EOF
+CREATE DATABASE IF NOT EXISTS customer;
+GRANT ALL PRIVILEGES ON customer.* TO 'mysql'@'%';
+
+CREATE DATABASE IF NOT EXISTS product;
+GRANT ALL PRIVILEGES ON product.* TO 'mysql'@'%';
+
+CREATE DATABASE IF NOT EXISTS loan;
+GRANT ALL PRIVILEGES ON loan.* TO 'mysql'@'%';
+
+CREATE DATABASE IF NOT EXISTS loanline;
+GRANT ALL PRIVILEGES ON loanline.* TO 'mysql'@'%';
+
+CREATE DATABASE IF NOT EXISTS partner;
+GRANT ALL PRIVILEGES ON partner.* TO 'mysql'@'%';
+
+FLUSH PRIVILEGES;
+EOF
