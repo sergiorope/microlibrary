@@ -1,0 +1,53 @@
+pipeline {
+    agent any 
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                echo 'Cloning repository...'
+                git branch: "main", url: "https://github.com/sergiorope/microlibrary"
+            }
+        }
+        
+        stage('Build Partner Service') {
+            steps {
+                dir(".") {
+                    bat 'mvn clean package'
+                }
+            }
+        }
+        
+        stage('Remove Old Partner Docker Image') {
+            steps {
+                bat "docker rmi -f sergiorodper/microlibrary:microlibrary-partner-v1 || echo 'No existing image to remove for partner'"
+            }
+        }
+
+        stage('Build Docker Image for Partner') {
+            steps {
+                dir(".") {
+                    bat 'docker build -t sergiorodper/microlibrary:microlibrary-partner-v1 --no-cache --build-arg JAR_FILE=target/*.jar .'
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                dir(".") {
+                    bat 'echo Current directory: %cd%'
+                    bat 'docker-compose down'
+                    bat 'docker-compose up -d --remove-orphans'
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed!'
+        }
+    }
+}
