@@ -54,7 +54,7 @@ services:
   ##SERVICIO DE EUREKA##
   eureka:
     container_name: microlibrary-eureka
-    image: sergiorodper/microlibrary:microlibrary-eureka-v1
+    image: sergiorodper/microlibrary:microlibrary-eurekaServer-v1
     environment:
       - JAVA_OPTS=-Xms256M -Xmx256M
     ports:
