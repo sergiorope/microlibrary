@@ -11,7 +11,7 @@ pipeline {
         
         stage('Build Customer Service') {
             steps {
-                dir(".") {
+                dir("businessdomain/customer") {
                     bat 'mvn clean package'
                 }
             }
@@ -25,7 +25,7 @@ pipeline {
 
         stage('Build Docker Image for Customer') {
             steps {
-                dir(".") {
+                dir("businessdomain/customer") {
                     bat 'docker build -t sergiorodper/microlibrary:microlibrary-customer-v1 --no-cache --build-arg JAR_FILE=target/*.jar .'
                 }
             }
