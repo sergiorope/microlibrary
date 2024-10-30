@@ -44,14 +44,10 @@ pipeline {
 
     post {
         success {
-            slackSend(channel: '#general', message: "El pipeline ha terminado con éxito!")
+            echo 'Pipeline completed successfully!'
         }
         failure {
-            slackSend(channel: '#general', message: "El pipeline ha fallado :(")
+            echo 'Pipeline failed!'
         }
-        always {
-            slackSend(channel: '#general', message: "El pipeline ha finalizado.")
-        }
-		
-	}
+    }
 }
