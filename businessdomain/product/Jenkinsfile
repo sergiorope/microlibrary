@@ -11,7 +11,7 @@ pipeline {
         
         stage('Build Product Service') {
             steps {
-                dir(".") {
+                dir("businessdomain/product") {
                     bat 'mvn clean package'
                 }
             }
@@ -25,7 +25,7 @@ pipeline {
 
         stage('Build Docker Image for Product') {
             steps {
-                dir(".") {
+                dir("businessdomain/product") {
                     bat 'docker build -t sergiorodper/microlibrary:microlibrary-product-v1 --no-cache --build-arg JAR_FILE=target/*.jar .'
                 }
             }
@@ -33,7 +33,7 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                dir(".") {
+                dir("") {
                     bat 'echo Current directory: %cd%'
                     bat 'docker-compose down'
                     bat 'docker-compose up -d --remove-orphans'
