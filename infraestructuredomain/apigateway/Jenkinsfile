@@ -9,24 +9,24 @@ pipeline {
             }
         }
         
-        stage('Build Partner Service') {
+        stage('Build ApiGateway Service') {
             steps {
-                dir("businessdomain/partner") {
+                dir("infraestructuredomain/apigateway") {
                     bat 'mvn clean package'
                 }
             }
         }
         
-        stage('Remove Old Partner Docker Image') {
+        stage('Remove Old ApiGateway Docker Image') {
             steps {
-                bat "docker rmi -f sergiorodper/microlibrary:microlibrary-partner-v1 || echo 'No existing image to remove for partner'"
+                bat "docker rmi -f sergiorodper/microlibrary:microlibrary-apigateway-v1 || echo 'No existing image to remove for apigateway'"
             }
         }
 
-        stage('Build Docker Image for Partner') {
+        stage('Build Docker Image for ApiGateway') {
             steps {
-                dir("businessdomain/partner") {
-                    bat 'docker build -t sergiorodper/microlibrary:microlibrary-partner-v1 --no-cache --build-arg JAR_FILE=target/*.jar .'
+                dir("infraestructuredomain/apigateway") {
+                    bat 'docker build -t sergiorodper/microlibrary:microlibrary-apigateway-v1 --no-cache --build-arg JAR_FILE=target/*.jar .'
                 }
             }
         }

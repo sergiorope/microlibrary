@@ -9,24 +9,24 @@ pipeline {
             }
         }
         
-        stage('Build Partner Service') {
+        stage('Build Loanline Service') {
             steps {
-                dir("businessdomain/partner") {
+                dir("businessdomain/loanline") {
                     bat 'mvn clean package'
                 }
             }
         }
         
-        stage('Remove Old Partner Docker Image') {
+        stage('Remove Old Loanline Docker Image') {
             steps {
-                bat "docker rmi -f sergiorodper/microlibrary:microlibrary-partner-v1 || echo 'No existing image to remove for partner'"
+                bat "docker rmi -f sergiorodper/microlibrary:microlibrary-loanline-v1 || echo 'No existing image to remove for loanline'"
             }
         }
 
-        stage('Build Docker Image for Partner') {
+        stage('Build Docker Image for Loanline') {
             steps {
-                dir("businessdomain/partner") {
-                    bat 'docker build -t sergiorodper/microlibrary:microlibrary-partner-v1 --no-cache --build-arg JAR_FILE=target/*.jar .'
+                dir("businessdomain/loanline") {
+                    bat 'docker build -t sergiorodper/microlibrary:microlibrary-loanline-v1 --no-cache --build-arg JAR_FILE=target/*.jar .'
                 }
             }
         }
