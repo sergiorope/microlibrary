@@ -52,4 +52,6 @@ pipeline {
         always {
             slackSend(channel: '#general', message: "El pipeline ha finalizado.")
         }
+		
+	}
 }
