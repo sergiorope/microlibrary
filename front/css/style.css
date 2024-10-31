@@ -35,6 +35,7 @@ body {
     transition: font-size 0.3s ease;
 }
 
+
 .side-button:hover {
     font-size: 24px !important;
 }
