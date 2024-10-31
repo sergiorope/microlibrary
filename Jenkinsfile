@@ -4,6 +4,8 @@ pipeline {
     environment {
         BUSINESS_DOMAIN_SERVICES = 'product,customer,partner,loan,loanline'
         INFRASTRUCTURE_DOMAIN_SERVICES = 'eurekaServer,apigateway'
+		SONARQUBE_SERVER = 'sonarqube-microlibrary' 
+        SONARQUBE_TOKEN = credentials('squ_29d0e14ee999fda8d6ff040d85f05ab6c594c5b6') 
     }
 
     stages {
@@ -13,6 +15,19 @@ pipeline {
                 git branch: "main", url: "https://github.com/sergiorope/microlibrary"
             }
         }
+		
+	stage('SonarQube Analysis') {
+            steps {
+                script {
+                    def sonarProjectKey = 'sergiorope_microlibrary' 
+                    def sonarProjectName = 'MicroLibrary' 
+                    def sonarProjectVersion = '1.0.0'
+                    
+                    // Ejecutar análisis de SonarQube
+                    bat "mvn sonar:sonar -Dsonar.projectKey=${sonarProjectKey} -Dsonar.projectName=${sonarProjectName} -Dsonar.projectVersion=${sonarProjectVersion} -Dsonar.host.url=http://localhost:9000 -Dsonar.login=${SONARQUBE_TOKEN}"
+                }
+            }
+        }	
 
         stage('Build Business Domain Services') {
             steps {
