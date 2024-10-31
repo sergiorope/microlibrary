@@ -5,7 +5,7 @@ pipeline {
         BUSINESS_DOMAIN_SERVICES = 'product,customer,partner,loan,loanline'
         INFRASTRUCTURE_DOMAIN_SERVICES = 'eurekaServer,apigateway'
 		SONARQUBE_SERVER = 'sonarqube-microlibrary' 
-        SONARQUBE_TOKEN = credentials('squ_29d0e14ee999fda8d6ff040d85f05ab6c594c5b6') 
+        SONARQUBE_TOKEN = credentials('sonarqube-microlibrary-credentials') 
     }
 
     stages {
