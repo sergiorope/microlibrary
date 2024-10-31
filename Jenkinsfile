@@ -2,7 +2,6 @@ pipeline {
     agent any 
 
     environment {
-        // Usamos cadenas separadas por comas
         BUSINESS_DOMAIN_SERVICES = 'product,customer,partner,loan,loanline'
         INFRASTRUCTURE_DOMAIN_SERVICES = 'eurekaServer,apigateway'
     }
@@ -18,7 +17,6 @@ pipeline {
         stage('Build Business Domain Services') {
             steps {
                 script {
-                    // Convertimos la cadena a una lista
                     def businessServices = BUSINESS_DOMAIN_SERVICES.split(',')
                     for (service in businessServices) {
                         dir("businessdomain/${service}") {
@@ -35,7 +33,7 @@ pipeline {
                     // Convertimos la cadena a una lista
                     def infrastructureServices = INFRASTRUCTURE_DOMAIN_SERVICES.split(',')
                     for (service in infrastructureServices) {
-                        dir("infrastructure/${service}") {
+                        dir("infrastructuredomain/${service}") {
                             bat 'mvn clean package'
                         }
                     }
@@ -46,7 +44,6 @@ pipeline {
         stage('Remove Old Docker Images') {
             steps {
                 script {
-                    // Unimos las listas de servicios
                     def allServices = BUSINESS_DOMAIN_SERVICES.split(',') + INFRASTRUCTURE_DOMAIN_SERVICES.split(',')
                     for (service in allServices) {
                         bat "docker rmi -f sergiorodper/microlibrary:microlibrary-${service}-v1 || echo 'No existing image to remove for ${service}'"
@@ -58,17 +55,15 @@ pipeline {
         stage('Build Docker Images') {
             steps {
                 script {
-                    // Construimos imágenes para los servicios de negocio
                     def businessServices = BUSINESS_DOMAIN_SERVICES.split(',')
                     for (service in businessServices) {
                         dir("businessdomain/${service}") {
                             bat "docker build -t sergiorodper/microlibrary:microlibrary-${service}-v1 --no-cache --build-arg JAR_FILE=target/*.jar ."
                         }
                     }
-                    // Construimos imágenes para los servicios de infraestructura
                     def infrastructureServices = INFRASTRUCTURE_DOMAIN_SERVICES.split(',')
                     for (service in infrastructureServices) {
-                        dir("infrastructure/${service}") {
+                        dir("infrastructuredomain/${service}") {
                             bat "docker build -t sergiorodper/microlibrary:microlibrary-${service}-v1 --no-cache --build-arg JAR_FILE=target/*.jar ."
                         }
                     }
