@@ -33,7 +33,7 @@ pipeline {
                     // Convertimos la cadena a una lista
                     def infrastructureServices = INFRASTRUCTURE_DOMAIN_SERVICES.split(',')
                     for (service in infrastructureServices) {
-                        dir("infrastructuredomain/${service}") {
+                        dir("infraestructuredomain/${service}") {
                             bat 'mvn clean package'
                         }
                     }
@@ -63,7 +63,7 @@ pipeline {
                     }
                     def infrastructureServices = INFRASTRUCTURE_DOMAIN_SERVICES.split(',')
                     for (service in infrastructureServices) {
-                        dir("infrastructuredomain/${service}") {
+                        dir("infraestructuredomain/${service}") {
                             bat "docker build -t sergiorodper/microlibrary:microlibrary-${service}-v1 --no-cache --build-arg JAR_FILE=target/*.jar ."
                         }
                     }
