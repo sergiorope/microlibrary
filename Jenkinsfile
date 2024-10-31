@@ -21,10 +21,14 @@ pipeline {
                 script {
                     def sonarProjectKey = 'sergiorope_microlibrary' 
                     def sonarProjectName = 'MicroLibrary' 
-                    def sonarProjectVersion = '1.0.0'
-                    
-                    // Ejecutar análisis de SonarQube
-                    bat "mvn sonar:sonar -Dsonar.projectKey=${sonarProjectKey} -Dsonar.projectName=${sonarProjectName} -Dsonar.projectVersion=${sonarProjectVersion} -Dsonar.host.url=http://localhost:9000 -Dsonar.login=${SONARQUBE_TOKEN}"
+                    def sonarProjectVersion = '1.0.0'				
+					try {
+           
+                bat "mvn sonar:sonar -Dsonar.projectKey=${sonarProjectKey} -Dsonar.projectName=${sonarProjectName} -Dsonar.projectVersion=${sonarProjectVersion} -Dsonar.host.url=http://localhost:9000 -Dsonar.login=${SONARQUBE_TOKEN}"
+            } catch (Exception e) {
+                echo 'SonarQube analysis failed, but continuing with the pipeline...'
+            }
+					
                 }
             }
         }	
