@@ -8,30 +8,31 @@ pipeline {
         SONARQUBE_TOKEN = credentials('sonarqube-microlibrary-credentials') 
     }
 
-    stages {
-        stage('Clone Repository') {
-            steps {
-                echo 'Cloning repository...'
-                git branch: "main", url: "https://github.com/sergiorope/microlibrary"
-            }
-        }
-		
-	stage('SonarQube Analysis') {
-            steps {
-                script {
-                    def sonarProjectKey = 'sergiorope_microlibrary' 
-                    def sonarProjectName = 'MicroLibrary' 
-                    def sonarProjectVersion = '1.0.0'				
-					try {
-           
-                bat "mvn sonar:sonar -Dsonar.projectKey=${sonarProjectKey} -Dsonar.projectName=${sonarProjectName} -Dsonar.projectVersion=${sonarProjectVersion} -Dsonar.host.url=http://localhost:9000 -Dsonar.login=${SONARQUBE_TOKEN}"
-            } catch (Exception e) {
-                echo 'SonarQube analysis failed, but continuing with the pipeline...'
-            }
-					
-                }
-            }
-        }	
+		stages {
+			stage('Clone Repository') {
+				steps {
+					echo 'Cloning repository...'
+					git branch: "main", url: "https://github.com/sergiorope/microlibrary"
+				}
+			}
+			
+			// Se realiza aquí solo el análisis de SonarQube porque es mejor la revisión del código de manera global en lugar de manera individual por microservicio.	
+		stage('SonarQube Analysis') {
+				steps {
+					script {
+						def sonarProjectKey = 'sergiorope_microlibrary' 
+						def sonarProjectName = 'MicroLibrary' 
+						def sonarProjectVersion = '1.0.0'				
+						try {
+			   
+					bat "mvn sonar:sonar -Dsonar.projectKey=${sonarProjectKey} -Dsonar.projectName=${sonarProjectName} -Dsonar.projectVersion=${sonarProjectVersion} -Dsonar.host.url=http://localhost:9000 -Dsonar.login=${SONARQUBE_TOKEN}"
+				} catch (Exception e) {
+					echo 'SonarQube analysis failed, but continuing with the pipeline...'
+				}
+						
+					}
+				}
+			}	
 
         stage('Build Business Domain Services') {
             steps {
@@ -85,6 +86,19 @@ pipeline {
                         dir("infraestructuredomain/${service}") {
                             bat "docker build -t sergiorodper/microlibrary:microlibrary-${service}-v1 --no-cache --build-arg JAR_FILE=target/*.jar ."
                         }
+                    }
+                }
+            }
+        }
+		
+		
+		stage('Push Docker Images to Docker Hub') {
+            steps {
+                script {
+                    def allServices = BUSINESS_DOMAIN_SERVICES.split(',') + INFRASTRUCTURE_DOMAIN_SERVICES.split(',')
+                    for (service in allServices) {
+                        bat "docker login -u ${DOCKER_HUB_CREDENTIALS.username} -p ${DOCKER_HUB_CREDENTIALS.password}"
+                        bat "docker push sergiorodper/microlibrary:microlibrary-${service}-v1"
                     }
                 }
             }
