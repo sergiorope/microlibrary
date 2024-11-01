@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navbar Sidebar</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <div class="d-flex flex-row vh-100">
+        <div class="bg-dark border-end side-bar">
+            <div class="sidebar-heading p-3 side-title">Microlibrary</div>
+            <div class="list-group list-group-flush ms-2 mt-2">
+
+                <a href="index.html" class=" list-group-item-action bg-dark side-button mb-4">Inicio</a>
+                <a href="usuarios.html" class=" list-group-item-action bg-dark side-button mb-4">Usuarios</a>
+                <a href="productos.html" class=" list-group-item-action bg-dark side-button mb-4">Productos</a>
+                <a href="prestamo.html" class="list-group-item-action bg-dark side-button mb-4">Préstamos</a>
+                <a href="ayuda.html" class=" list-group-item-action bg-dark side-button mb-4">Ayuda</a>
+                <br>
+            </div>
+        </div>
+
+
+<div class="p-3">
+    <h2>Añadir producto</h2>
+        <form id="productinfo">
+            <div class="form-group">
+              <label for="exampleInputName">Nombre</label>
+              <input type="text" class="form-control" id="name"  placeholder="Escribe el nombre">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputDescription">Descripción</label>
+              <input type="text" class="form-control" id="description" placeholder="Escribe la descripción">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputAuthor">Autor</label>
+                <input type="text" class="form-control" id="author" placeholder="Escribe el nombre del autor">
+              </div>
+
+              <div class="form-group">
+                <label for="exampleInputImage">Image</label>
+                <input type="text" class="form-control" id="image" placeholder="Escribe la URL de la imagen">
+              </div>
+            
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+
+          </div>
+  
+          <script src="js/postproducto.js"></script>
+</body>
+
+</html>
