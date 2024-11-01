@@ -9,31 +9,28 @@ pipeline {
 		DOCKER_HUB_CREDENTIALS = credentials('dockerhub-jenkins-credentials')		
     }
 
-		stages {
-			stage('Clone Repository') {
-				steps {
-					echo 'Cloning repository...'
-					git branch: "main", url: "https://github.com/sergiorope/microlibrary"
-				}
-			}
-			
-			// Se realiza aquí solo el análisis de SonarQube porque es mejor la revisión del código de manera global en lugar de manera individual por microservicio.	
-		stage('SonarQube Analysis') {
-				steps {
-					script {
-						def sonarProjectKey = 'sergiorope_microlibrary' 
-						def sonarProjectName = 'MicroLibrary' 
-						def sonarProjectVersion = '1.0.0'				
-						try {
-			   
-					bat "mvn sonar:sonar -Dsonar.projectKey=${sonarProjectKey} -Dsonar.projectName=${sonarProjectName} -Dsonar.projectVersion=${sonarProjectVersion} -Dsonar.host.url=http://localhost:9000 -Dsonar.login=${SONARQUBE_TOKEN}"
-				} catch (Exception e) {
-					echo 'SonarQube analysis failed, but continuing with the pipeline...'
-				}
-						
-					}
-				}
-			}	
+    stages {
+        stage('Clone Repository') {
+            steps {
+                echo 'Cloning repository...'
+                git branch: "main", url: "https://github.com/sergiorope/microlibrary"
+            }
+        }
+        
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    def sonarProjectKey = 'sergiorope_microlibrary' 
+                    def sonarProjectName = 'MicroLibrary' 
+                    def sonarProjectVersion = '1.0.0'				
+                    try {
+                        bat "mvn sonar:sonar -Dsonar.projectKey=${sonarProjectKey} -Dsonar.projectName=${sonarProjectName} -Dsonar.projectVersion=${sonarProjectVersion} -Dsonar.host.url=http://localhost:9000 -Dsonar.login=${SONARQUBE_TOKEN}"
+                    } catch (Exception e) {
+                        echo 'SonarQube analysis failed, but continuing with the pipeline...'
+                    }
+                }
+            }
+        }	
 
         stage('Build Business Domain Services') {
             steps {
@@ -51,7 +48,6 @@ pipeline {
         stage('Build Infrastructure Services') {
             steps {
                 script {
-                    // Convertimos la cadena a una lista
                     def infrastructureServices = INFRASTRUCTURE_DOMAIN_SERVICES.split(',')
                     for (service in infrastructureServices) {
                         dir("infraestructuredomain/${service}") {
@@ -76,30 +72,30 @@ pipeline {
         stage('Build Docker Images') {
             steps {
                 script {
-                    def businessServices = BUSINESS_DOMAIN_SERVICES.split(',')
-                    for (service in businessServices) {
-                        dir("businessdomain/${service}") {
-                            bat "docker build -t sergiorodper/microlibrary:microlibrary-${service}-v1 --no-cache --build-arg JAR_FILE=target/*.jar ."
-                        }
-                    }
-                    def infrastructureServices = INFRASTRUCTURE_DOMAIN_SERVICES.split(',')
-                    for (service in infrastructureServices) {
-                        dir("infraestructuredomain/${service}") {
+                    def allServices = BUSINESS_DOMAIN_SERVICES.split(',') + INFRASTRUCTURE_DOMAIN_SERVICES.split(',')
+                    for (service in allServices) {
+                        def directory = BUSINESS_DOMAIN_SERVICES.contains(service) ? "businessdomain/${service}" : "infraestructuredomain/${service}"
+                        dir(directory) {
                             bat "docker build -t sergiorodper/microlibrary:microlibrary-${service}-v1 --no-cache --build-arg JAR_FILE=target/*.jar ."
                         }
                     }
                 }
             }
         }
-		
-		
-		stage('Push Docker Images to Docker Hub') {
+
+        stage('Push Docker Images to Docker Hub') {
             steps {
                 script {
-                    def allServices = BUSINESS_DOMAIN_SERVICES.split(',') + INFRASTRUCTURE_DOMAIN_SERVICES.split(',')
-                    for (service in allServices) {
+                    try {
+                        // Docker login once before pushing
                         bat "docker login -u ${DOCKER_HUB_CREDENTIALS.username} -p ${DOCKER_HUB_CREDENTIALS.password}"
-                        bat "docker push sergiorodper/microlibrary:microlibrary-${service}-v1"
+                        
+                        def allServices = BUSINESS_DOMAIN_SERVICES.split(',') + INFRASTRUCTURE_DOMAIN_SERVICES.split(',')
+                        for (service in allServices) {
+                            bat "docker push sergiorodper/microlibrary:microlibrary-${service}-v1"
+                        }
+                    } catch (Exception e) {
+                        echo "Docker login or push failed: ${e.message}"
                     }
                 }
             }
