@@ -25,6 +25,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 buyButton.className = "btn btn-primary";
                 buyButton.textContent = "Comprar";
 
+                const deleteButton = document.createElement('a');
+                deleteButton.className = "btn btn-danger ms-2";
+                deleteButton.textContent = "Eliminar";
+
                 const cardBody = document.createElement('div');
                 cardBody.className = 'card-body';
                 
@@ -47,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 cardBody.appendChild(nameElement);
                 cardBody.appendChild(descriptionElement);
                 cardBody.appendChild(buyButton);
+                cardBody.appendChild(deleteButton);
 
                 card.appendChild(cardBody);
 

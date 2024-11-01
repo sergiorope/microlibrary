@@ -87,3 +87,13 @@ body {
     padding: 5%;
     
 }
+
+#messageContainer{
+
+    color: green;
+}
+
+#emptyContainer{
+
+    color: red;
+}
