@@ -84,22 +84,25 @@ pipeline {
         }
 
         stage('Push Docker Images to Docker Hub') {
-            steps {
-                script {
-                    try {
-                        // Docker login once before pushing
-                        bat "docker login -u ${DOCKER_HUB_CREDENTIALS.username} -p ${DOCKER_HUB_CREDENTIALS.password}"
-                        
-                        def allServices = BUSINESS_DOMAIN_SERVICES.split(',') + INFRASTRUCTURE_DOMAIN_SERVICES.split(',')
-                        for (service in allServices) {
-                            bat "docker push sergiorodper/microlibrary:microlibrary-${service}-v1"
-                        }
-                    } catch (Exception e) {
-                        echo "Docker login or push failed: ${e.message}"
-                    }
-                }
-            }
-        }
+			steps {
+				script {
+					try {
+						// Iniciar sesión en Docker Hub usando withCredentials
+						withCredentials([usernamePassword(credentialsId: 'dockerhub-jenkins-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+							bat "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
+							
+							// Empujar todas las imágenes construidas a Docker Hub
+							def allServices = BUSINESS_DOMAIN_SERVICES.split(',') + INFRASTRUCTURE_DOMAIN_SERVICES.split(',')
+							for (service in allServices) {
+								bat "docker push sergiorodper/microlibrary:microlibrary-${service}-v1"
+							}
+						}
+					} catch (Exception e) {
+						echo "Docker login or push failed: ${e.message}"
+					}
+			}
+    }
+}
 
         stage('Deploy') {
             steps {
