@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Tag(name = "Product API", description = "This APi serve all functionality for management Products")
 @RestController
-@CrossOrigin(origins = "http://127.0.0.1:5500")
+@CrossOrigin(origins = "http://localhost:5500")
 @RequestMapping("/product")
 public class ProductController {
 
