@@ -30,6 +30,23 @@ pipeline {
                 }
             }
         }
+		
+		stage('Push Docker Image to Docker Hub') {
+			steps {
+				script {
+					try {
+						withCredentials([usernamePassword(credentialsId: 'dockerhub-jenkins-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+							bat "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
+							
+							bat "docker push sergiorodper/microlibrary:microlibrary-product-v1"
+							
+						}
+					} catch (Exception e) {
+						echo "Docker login or push failed: ${e.message}"
+					}
+			}
+    }
+}
 
         stage('Deploy') {
             steps {

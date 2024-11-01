@@ -5,8 +5,7 @@ pipeline {
         BUSINESS_DOMAIN_SERVICES = 'product,customer,partner,loan,loanline'
         INFRASTRUCTURE_DOMAIN_SERVICES = 'eurekaServer,apigateway'
 		SONARQUBE_SERVER = 'sonarqube-microlibrary' 
-        SONARQUBE_TOKEN = credentials('sonarqube-microlibrary-credentials')
-		DOCKER_HUB_CREDENTIALS = credentials('dockerhub-jenkins-credentials')		
+        SONARQUBE_TOKEN = credentials('sonarqube-microlibrary-credentials')	
     }
 
     stages {
@@ -87,11 +86,9 @@ pipeline {
 			steps {
 				script {
 					try {
-						// Iniciar sesión en Docker Hub usando withCredentials
 						withCredentials([usernamePassword(credentialsId: 'dockerhub-jenkins-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
 							bat "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
 							
-							// Empujar todas las imágenes construidas a Docker Hub
 							def allServices = BUSINESS_DOMAIN_SERVICES.split(',') + INFRASTRUCTURE_DOMAIN_SERVICES.split(',')
 							for (service in allServices) {
 								bat "docker push sergiorodper/microlibrary:microlibrary-${service}-v1"
