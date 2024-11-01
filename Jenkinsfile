@@ -5,7 +5,8 @@ pipeline {
         BUSINESS_DOMAIN_SERVICES = 'product,customer,partner,loan,loanline'
         INFRASTRUCTURE_DOMAIN_SERVICES = 'eurekaServer,apigateway'
 		SONARQUBE_SERVER = 'sonarqube-microlibrary' 
-        SONARQUBE_TOKEN = credentials('sonarqube-microlibrary-credentials') 
+        SONARQUBE_TOKEN = credentials('sonarqube-microlibrary-credentials')
+		DOCKER_HUB_CREDENTIALS = credentials('dockerhub-jenkins-credentials')		
     }
 
 		stages {
