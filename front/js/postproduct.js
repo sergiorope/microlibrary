@@ -1,5 +1,7 @@
 const form = document.querySelector("#productinfo");
 
+const apiUrlPOST = 'http://localhost:8080/product/post';
+
 form.addEventListener("submit", (event) => {
     event.preventDefault(); 
 
@@ -25,7 +27,8 @@ form.addEventListener("submit", (event) => {
         const data = {};
         formData.forEach((value, key) => (data[key] = value));
 
-        fetch("http://localhost:8080/product/post", {
+        //Petición para insertar los datos del producto despues de pulsar submit y que haya sido validado
+        fetch(apiUrlPOST, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json; charset=UTF-8"

@@ -17,33 +17,35 @@
         <div class="bg-dark border-end side-bar">
             <div class="sidebar-heading p-3 side-title">Microlibrary</div>
             <div class="list-group list-group-flush ms-2 mt-2">
-                <a href="index.html" class="list-group-item-action bg-dark side-button mb-4">Inicio</a>
-                <a href="usuarios.html" class="list-group-item-action bg-dark side-button mb-4">Usuarios</a>
-                <a href="productos.html" class="list-group-item-action bg-dark side-button mb-4">Productos</a>
-                <a href="prestamo.html" class="list-group-item-action bg-dark side-button mb-4">Préstamos</a>
-                <a href="ayuda.html" class="list-group-item-action bg-dark side-button mb-4">Ayuda</a>
+                
+                <a href="index.html" class=" list-group-item-action bg-dark side-button mb-4">Inicio</a>
+                <a href="customers.html" class=" list-group-item-action bg-dark side-button mb-4">Usuarios</a>
+                <a href="products.html" class=" list-group-item-action bg-dark side-button mb-4">Productos</a>
+                <a href="loans.html" class="list-group-item-action bg-dark side-button mb-4">Préstamos</a>
+                <a href="help.html" class=" list-group-item-action bg-dark side-button mb-4">Ayuda</a>   
+                <br>
             </div>
         </div>
 
 
         <div class="p-3 flex-grow-1">
-            <h2>Añadir producto</h2>
-            <form id="productinfo">
+            <h2>Editar producto</h2>
+            <form id="product-update">
                 <div class="form-group">
                     <label for="name">Nombre</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Escribe el nombre">
+                    <input type="text" class="form-control" id="product-name-update" name="name" placeholder="Escribe el nombre">
                 </div>
                 <div class="form-group">
                     <label for="description">Descripción</label>
-                    <input type="text" class="form-control" id="description" name="description" placeholder="Escribe la descripción">
+                    <input type="text" class="form-control" id="product-description-update" name="description" placeholder="Escribe la descripción">
                 </div>
                 <div class="form-group">
                     <label for="autor">Autor</label>
-                    <input type="text" class="form-control" id="autor" name="autor" placeholder="Escribe el nombre del autor">
+                    <input type="text" class="form-control" id="product-autor-update" name="autor" placeholder="Escribe el nombre del autor">
                 </div>
                 <div class="form-group">
                     <label for="image">Imagen</label>
-                    <input type="text" class="form-control" id="image" name="image" placeholder="Escribe la URL de la imagen">
+                    <input type="text" class="form-control" id="product-image-update" name="image" placeholder="Escribe la URL de la imagen">
                 </div>
                 <div id="messageContainer"></div>
                 <div id="emptyContainer"></div>
@@ -54,7 +56,7 @@
         </div>
     </div>
 
-    <script src="js/postproducto.js"></script>
+    <script src="js/putproduct.js"></script>
 </body>
 
 </html>
