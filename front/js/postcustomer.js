@@ -15,6 +15,7 @@ fetch(apiUrlGET)
     console.log(data);
 
     const selectElement = document.getElementById("clientes");
+    selectElement.classList.add("form-select");
 
     data.forEach((item) => {
       const optionElement = document.createElement("option");

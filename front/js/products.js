@@ -31,6 +31,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const cardBody = document.createElement("div");
         cardBody.className = "card-body-product";
 
+        const buttonsBody = document.createElement("div");
+        cardBody.className = "body-button";
+
         const nameElement = document.createElement("h5");
         nameElement.className = "product-name";
         nameElement.textContent = item.name;
@@ -52,8 +55,11 @@ document.addEventListener("DOMContentLoaded", () => {
         cardBody.appendChild(autorElement);
         cardBody.appendChild(nameElement);
         cardBody.appendChild(descriptionElement);
-        cardBody.appendChild(updateButton);
-        cardBody.appendChild(deleteButton);
+        buttonsBody.appendChild(updateButton);
+        buttonsBody.appendChild(deleteButton);
+        cardBody.appendChild(buttonsBody);
+
+     
         card.appendChild(cardBody);
         resultContainer.appendChild(card);
 

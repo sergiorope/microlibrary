@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.net.UnknownHostException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -72,6 +73,16 @@ public class LoanController {
         List<LoanResponse> getByCustomerId = ls.getByCustomerId(customer_Id);
 
         return ResponseEntity.ok(getByCustomerId);
+    }
+    
+    @Operation(description = "Find customer name from ID of loan", summary = "Return 404 if the partner not found")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Success"),
+        @ApiResponse(responseCode = "500", description = "Internal error")})
+    @GetMapping("/customer/{id}")
+    public ResponseEntity<?> getCustomer(@PathVariable(name = "id") long id) throws BussinesRuleException, UnknownHostException {
+        String customer = ls.getCustomer(id);
+        return ResponseEntity.ok(customer);
     }
 
     @Operation(description = "Insert Loan", summary = "Return 400 if the business validation is wrong")
