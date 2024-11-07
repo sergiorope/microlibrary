@@ -82,13 +82,13 @@ body {
     height: 50px;
 }
 
-.addproduct{
+.addelement{
 
     width: 150px;
     transition: width 0.3s ease;
 }
 
-.addproduct:hover{
+.addelement:hover{
 
    width: 200px;
 }
@@ -141,4 +141,10 @@ body {
 .body-button{
 
     padding: 5%;
+}
+
+#addContainer{
+
+    display: flex;
+    flex-direction: column;
 }

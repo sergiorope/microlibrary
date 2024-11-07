@@ -18,6 +18,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         const id = item.id;
 
         const customerResponse = await fetch(`http://localhost:8080/loan/customer/${id}`);
+
+        const dataCustomer = await customerResponse.text();
+
+        
         
  
   
@@ -51,10 +55,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const customerElement = document.createElement("p");
         customerElement.className = "loan-customer mt-2";
-        customerElement.innerHTML = `<b>Cliente:</b> ${customerResponse}`;
+        customerElement.innerHTML = `<b>Cliente:</b> ${dataCustomer}`;
 
   
-        cardBody.append(startDateElement, endDateElement, statusElement, updateButton, deleteButton);
+        cardBody.append(customerElement, startDateElement, endDateElement, statusElement, updateButton, deleteButton);
         card.appendChild(cardBody);
         resultContainer.appendChild(card); 
        
