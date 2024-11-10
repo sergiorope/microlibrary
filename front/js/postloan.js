@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 const form = document.querySelector("#loaninfo");
 
 const apiUrlPOST = "http://localhost:8080/loan/post";
+const apiUrlLoanlinePOST = "http://localhost:8080/loanline/post";
 const apiUrlGET = "http://localhost:8080/customer/list";
 const apiUrlProductGET = "http://localhost:8080/product/list";
 
@@ -34,7 +35,7 @@ const inputEnd_Date = document.getElementById("end_date");
   
 
 
-/*
+
 const saltolinea = document.createElement("br");
 const addContainer = document.getElementById("addContainer");
 const addButton = document.createElement("a");
@@ -45,8 +46,10 @@ addButton.href = "#";
 addContainer.appendChild(addButton);
 addContainer.appendChild(saltolinea);
 
+let selectElementProduct;
 
 
+// Click para aumentar todos los productos deseados en el préstamo
 addButton.addEventListener("click", async (event) => {
   event.preventDefault();
 
@@ -57,7 +60,8 @@ addButton.addEventListener("click", async (event) => {
 
   const products = await response.json();
 
-  const selectElementProduct = document.createElement("select");
+
+  selectElementProduct = document.createElement("select");
 
 
 for (const item of products) {
@@ -73,11 +77,9 @@ for (const item of products) {
 
     addContainer.appendChild(selectElementProduct);
 
-
 }
 
-*/
-
+});
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -130,11 +132,70 @@ form.addEventListener("submit", async (event) => {
       body: JSON.stringify(data),
     });
 
-    if (!response.ok) {
-      const errorDetails = await response.json();
-      console.error(`Error ${response.status}:`, errorDetails.message || errorDetails);
-      throw new Error(`Error ${response.status}: ${errorDetails.message || "Unexpected error"}`);
-    }
+    const loanData = await response.json();
+      const loanId = parseInt(loanData.id);
+
+
+      if (!response.ok) {
+        const errorDetails = await response.json();
+        console.error(`Error ${response.status}:`, errorDetails.message || errorDetails);
+        throw new Error(`Error ${response.status}: ${errorDetails.message || "Unexpected error"}`);
+      }
+
+
+      const selects = addContainer.getElementsByTagName("select");
+
+      const IdRepetitive = [];
+
+      Array.from(selects).forEach(async (select) => {
+          const selectedOption = select.options[select.selectedIndex];
+
+          
+          
+
+          for(const id of IdRepetitive){
+
+            if(id == selectedOption.value){
+
+              throw new Error("Error no puedes poner dos productos iguales en el mismo préstamo");
+
+
+            }
+
+
+          }
+
+          IdRepetitive.push(selectedOption.value);
+       
+          const selectedProductId = selectedOption.value;
+      
+          // Petición para insertar las líneas de cada del préstamo
+          const loanLineData = { loan_Id: loanId, product_Id: selectedProductId };
+      
+          try {
+              const responseLoanLine = await fetch(apiUrlLoanlinePOST, {
+                  method: "POST",
+                  headers: {
+                      "Content-Type": "application/json; charset=UTF-8",
+                  },
+                  body: JSON.stringify(loanLineData),
+              });
+      
+              if (!responseLoanLine.ok) {
+                  const errorDetails = await responseLoanLine.json();
+                  console.error(`Error ${responseLoanLine.status}:`, errorDetails.message || errorDetails);
+                  throw new Error(`Error ${responseLoanLine.status}: ${errorDetails.message || "Unexpected error"}`);
+              }
+              
+              // Aquí puedes agregar el manejo de la respuesta si es necesario
+              const responseData = await responseLoanLine.json();
+              console.log("Línea de préstamo creada:", responseData);
+      
+          } catch (error) {
+              console.error("Error al procesar la línea de préstamo:", error);
+          }
+      });
+
 
     const customerNew = document.createElement("p");
     customerNew.textContent = "Añadido correctamente";
@@ -144,11 +205,6 @@ form.addEventListener("submit", async (event) => {
     return response.json();
   }
 });
-
-
-});
-
-
 
 
 //Funciones para calcular de manera automática el tiempo que durará el prestamo
@@ -194,3 +250,5 @@ function addOneWeek(dateString) {
   
   return `${newDay}-${newMonth}-${newYear}`;
 }
+
+});
