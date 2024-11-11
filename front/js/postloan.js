@@ -123,87 +123,84 @@ form.addEventListener("submit", async (event) => {
 
    
 
-    // Petición para insertar los datos del préstamo
-    const response = await fetch(apiUrlPOST, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json; charset=UTF-8",
-      },
-      body: JSON.stringify(data),
-    });
-
-    const loanData = await response.json();
-      const loanId = parseInt(loanData.id);
-
-
-      if (!response.ok) {
-        const errorDetails = await response.json();
-        console.error(`Error ${response.status}:`, errorDetails.message || errorDetails);
-        throw new Error(`Error ${response.status}: ${errorDetails.message || "Unexpected error"}`);
-      }
-
 
       const selects = addContainer.getElementsByTagName("select");
 
-      const IdRepetitive = [];
-
-      Array.from(selects).forEach(async (select) => {
-          const selectedOption = select.options[select.selectedIndex];
-
-          
-          
-
-          for(const id of IdRepetitive){
-
-            if(id == selectedOption.value){
-
-              throw new Error("Error no puedes poner dos productos iguales en el mismo préstamo");
-
-
+      try {
+        const IdRepetitive = [];
+    
+        for (const select of selects) {
+            const selectedOption = select.options[select.selectedIndex];
+    
+            if (IdRepetitive.includes(selectedOption.value)) {
+                throw new Error("Error: no puedes poner dos productos iguales en el mismo préstamo");
             }
+    
+            IdRepetitive.push(selectedOption.value);
+        }
+    
+        // Si llegamos aquí, no se lanzaron excepciones y podemos proceder con los POST
+        const response = await fetch(apiUrlPOST, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8",
+            },
+            body: JSON.stringify(data),
+        });
+    
+        if (!response.ok) {
+            const errorDetails = await response.json();
+            throw new Error(`Error ${response.status}: ${errorDetails.message || "Unexpected error"}`);
+        }
+    
+        const loanData = await response.json();
+        const loanId = parseInt(loanData.id);
+    
+        // Aquí procesamos las líneas de préstamo
+        for (const selectedProductId of IdRepetitive) {
+            const loanLineData = { loan_Id: loanId, product_Id: selectedProductId };
+    
+            const responseLoanLine = await fetch(apiUrlLoanlinePOST, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json; charset=UTF-8",
+                },
+                body: JSON.stringify(loanLineData),
+            });
+    
+            if (!responseLoanLine.ok) {
+                const errorDetails = await responseLoanLine.json();
+                throw new Error(`Error en Loanline ${responseLoanLine.status}: ${errorDetails.message || "Unexpected error"}`);
+            }
+    
+            const responseData = await responseLoanLine.json();
+            console.log("Línea de préstamo creada:", responseData);
+        }
 
 
-          }
-
-          IdRepetitive.push(selectedOption.value);
+        const customerNew = document.createElement("p");
+        customerNew.textContent = "Añadido correctamente";
+        messageContainer.appendChild(customerNew);
+    
        
-          const selectedProductId = selectedOption.value;
+    
+    } catch (error) {
+        console.error(error.message);
+        messageContainer.innerHTML = error.message;  
+    }
+    
+
+          
+
       
-          // Petición para insertar las líneas de cada del préstamo
-          const loanLineData = { loan_Id: loanId, product_Id: selectedProductId };
-      
-          try {
-              const responseLoanLine = await fetch(apiUrlLoanlinePOST, {
-                  method: "POST",
-                  headers: {
-                      "Content-Type": "application/json; charset=UTF-8",
-                  },
-                  body: JSON.stringify(loanLineData),
-              });
-      
-              if (!responseLoanLine.ok) {
-                  const errorDetails = await responseLoanLine.json();
-                  console.error(`Error ${responseLoanLine.status}:`, errorDetails.message || errorDetails);
-                  throw new Error(`Error ${responseLoanLine.status}: ${errorDetails.message || "Unexpected error"}`);
-              }
-              
-              // Aquí puedes agregar el manejo de la respuesta si es necesario
-              const responseData = await responseLoanLine.json();
-              console.log("Línea de préstamo creada:", responseData);
-      
-          } catch (error) {
-              console.error("Error al procesar la línea de préstamo:", error);
-          }
-      });
 
 
-    const customerNew = document.createElement("p");
-    customerNew.textContent = "Añadido correctamente";
-    messageContainer.appendChild(customerNew);
+    
 
     form.reset();
-    return response.json();
   }
+
+
 });
 
 
