@@ -131,7 +131,11 @@ body {
 #messageContainer{
 
     color: green;
+    position: absolute;
+    
 }
+
+
 
 #emptyContainer{
 
@@ -143,8 +147,15 @@ body {
     padding: 5%;
 }
 
-#addContainer{
+.errormsgproduct{
+
+    color: red;
+}
+
+.eee{
 
     display: flex;
-    flex-direction: column;
+    font-weight: bold;
+
+   margin-right: 30%;
 }

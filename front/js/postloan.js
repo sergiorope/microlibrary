@@ -38,9 +38,11 @@ const inputEnd_Date = document.getElementById("end_date");
 
 const saltolinea = document.createElement("br");
 const addContainer = document.getElementById("addContainer");
+const addContainerSelects = document.getElementById("addContainerSelects");
 const addButton = document.createElement("a");
-addButton.text = "+";
+addButton.innerHTML = '<i class="bi bi-plus-circle"></i>';
 addButton.href = "#";
+addButton.className = "btn btn-primary mt-1"
 
 
 addContainer.appendChild(addButton);
@@ -63,6 +65,8 @@ addButton.addEventListener("click", async (event) => {
 
   selectElementProduct = document.createElement("select");
 
+  selectElementProduct.className = "form-select mt-2";
+
 
 for (const item of products) {
 
@@ -75,7 +79,7 @@ for (const item of products) {
     selectElementProduct.appendChild(optionElement);
 
 
-    addContainer.appendChild(selectElementProduct);
+    addContainerSelects.appendChild(selectElementProduct);
 
 }
 
@@ -124,7 +128,7 @@ form.addEventListener("submit", async (event) => {
    
 
 
-      const selects = addContainer.getElementsByTagName("select");
+      const selects = addContainerSelects.getElementsByTagName("select");
 
       try {
         const IdRepetitive = [];
@@ -186,7 +190,13 @@ form.addEventListener("submit", async (event) => {
     
     } catch (error) {
         console.error(error.message);
-        messageContainer.innerHTML = error.message;  
+
+        const productError = document.createElement("p");
+
+        productError.className="errormsgproduct";
+
+        productError.textContent = "Error no puede haber dos productos iguales en un préstamo";
+        messageContainer.appendChild(productError);
     }
     
 
