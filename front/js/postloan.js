@@ -1,92 +1,89 @@
 document.addEventListener("DOMContentLoaded", async () => {
-const form = document.querySelector("#loaninfo");
+  const form = document.querySelector("#loaninfo");
 
-const apiUrlPOST = "http://localhost:8080/loan/post";
-const apiUrlLoanlinePOST = "http://localhost:8080/loanline/post";
-const apiUrlGET = "http://localhost:8080/customer/list";
-const apiUrlProductGET = "http://localhost:8080/product/list";
+  const apiUrlPOST = "http://localhost:8080/loan/post";
+  const apiUrlLoanlinePOST = "http://localhost:8080/loanline/post";
+  const apiUrlGET = "http://localhost:8080/customer/list";
+  const apiUrlProductGET = "http://localhost:8080/product/list";
 
-//Petición para mostrar todos los customers disponibles en el select
-const response = await fetch(apiUrlGET);
-if (!response.ok) {
-  throw new Error("Error en la red");
-}
-const customers = await response.json();
-
-const selectElement = document.getElementById("clientes");
-
-
-for (const item of customers) {
-
-    const optionElement = document.createElement("option");
-    optionElement.textContent = item.name;
-    optionElement.value = item.id;
-
-
-
-selectElement.appendChild(optionElement);
-
-
-}
-
-const selectTime = document.getElementById("time");
-const inputStart_Date = document.getElementById("start_date");
-const inputEnd_Date = document.getElementById("end_date");
-  
-
-
-
-const saltolinea = document.createElement("br");
-const addContainer = document.getElementById("addContainer");
-const addContainerSelects = document.getElementById("addContainerSelects");
-const addButton = document.createElement("a");
-addButton.innerHTML = '<i class="bi bi-plus-circle"></i>';
-addButton.href = "#";
-addButton.className = "btn btn-primary mt-1"
-
-
-addContainer.appendChild(addButton);
-addContainer.appendChild(saltolinea);
-
-let selectElementProduct;
-
-
-// Click para aumentar todos los productos deseados en el préstamo
-addButton.addEventListener("click", async (event) => {
-  event.preventDefault();
-
-  const response = await fetch(apiUrlProductGET);
+  // Petición para mostrar todos los customers disponibles en el select
+  const response = await fetch(apiUrlGET);
   if (!response.ok) {
     throw new Error("Error en la red");
   }
+  const customers = await response.json();
 
-  const products = await response.json();
+  const selectElement = document.getElementById("clientes");
 
-
-  selectElementProduct = document.createElement("select");
-
-  selectElementProduct.className = "form-select mt-2";
-
-
-for (const item of products) {
-
+  for (const item of customers) {
     const optionElement = document.createElement("option");
     optionElement.textContent = item.name;
     optionElement.value = item.id;
+    selectElement.appendChild(optionElement);
+  }
+
+
+  const selectTime = document.getElementById("time");
+  const inputStart_Date = document.getElementById("start_date");
+  const inputEnd_Date = document.getElementById("end_date");
+  const addContainer = document.getElementById("addContainer");
+  const addContainerSelects = document.getElementById("addContainerSelects");
+  const addButton = document.createElement("a");
+
+  addButton.innerHTML = '<i class="bi bi-plus-circle"></i>';
+  addButton.href = "#";
+  addButton.className = "btn btn-primary mt-1";
+
+  addContainer.appendChild(addButton);
+
+  // Click para agregar nuevos productos en el préstamo
+  addButton.addEventListener("click", async (event) => {
+    event.preventDefault();
+
+    const response = await fetch(apiUrlProductGET);
+    if (!response.ok) {
+      throw new Error("Error en la red");
+    }
+
+    const products = await response.json();
+
+    const individualSelect = document.createElement("div");
+    individualSelect.className = "individual-select d-flex align-items-center mt-2";
+
+    const selectElementProduct = document.createElement("select");
+    selectElementProduct.className = "form-select me-2";
+
+    const deleteButton = document.createElement("a");
+    deleteButton.className = "btn btn-danger";
+    deleteButton.textContent = "-";
+
+    for (const item of products) {
+      const optionElement = document.createElement("option");
+      optionElement.textContent = item.name;
+      optionElement.value = item.id;
+      selectElementProduct.appendChild(optionElement);
+    }
+
+    individualSelect.appendChild(selectElementProduct);
+    individualSelect.appendChild(deleteButton);
+
+
+    addContainerSelects.appendChild(individualSelect);
+
+
+    deleteButton.addEventListener("click", () => {
+      individualSelect.remove();
+    });
+  });
 
 
 
-    selectElementProduct.appendChild(optionElement);
-
-
-    addContainerSelects.appendChild(selectElementProduct);
-
-}
-
-});
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
+
+
+
 
 
 
@@ -115,6 +112,8 @@ form.addEventListener("submit", async (event) => {
 
   if (!inputStart_Date.value) {
     const customerEmpty = document.createElement("p");
+    customerEmpty.className = "mt-3"
+
     customerEmpty.textContent = "Por favor, rellene todos los campos";
     emptyContainer.appendChild(customerEmpty);
   } else {
@@ -129,6 +128,14 @@ form.addEventListener("submit", async (event) => {
 
 
       const selects = addContainerSelects.getElementsByTagName("select");
+
+      
+
+      if(selects.length != 0){
+
+        console.log("weeeeeee");
+
+      
 
       try {
         const IdRepetitive = [];
@@ -185,6 +192,8 @@ form.addEventListener("submit", async (event) => {
         const customerNew = document.createElement("p");
         customerNew.textContent = "Añadido correctamente";
         messageContainer.appendChild(customerNew);
+
+        form.reset();
     
        
     
@@ -195,20 +204,26 @@ form.addEventListener("submit", async (event) => {
 
         productError.className="errormsgproduct";
 
-        productError.textContent = "Error no puede haber dos productos iguales en un préstamo";
+        productError.textContent = "Error, no puede haber dos productos iguales en un préstamo";
         messageContainer.appendChild(productError);
     }
     
 
-          
-
-      
-
-
     
+  }else{
 
-    form.reset();
+   
+
+    const productSelects = document.createElement("p");
+
+    productSelects.className="errormsgproductcontain";
+
+    productSelects.textContent = "Error, el préstamo debe contener productos";
+    messageContainer.appendChild(productSelects);
+
   }
+
+}
 
 
 });
