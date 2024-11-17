@@ -118,6 +118,21 @@ body {
 }
 
 
+.accordion-header {
+    border: 0.5px solid #888; /* Borde más fino y gris */
+    border-radius: 1%;
+}
+
+.statusPassed {
+
+    color: green;
+}
+
+.statusExpired {
+
+    color: red;
+}
+
 
 
 #result{
