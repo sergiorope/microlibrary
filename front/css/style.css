@@ -133,6 +133,12 @@ body {
     color: red;
 }
 
+#selectsContainer {
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
 
 
 #result{
@@ -174,3 +180,4 @@ body {
 
    margin-right: 30%;
 }
+
