@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
         cardBody.className = "card-body-product";
 
         const buttonsBody = document.createElement("div");
-        cardBody.className = "body-button";
+        cardBody.className = "body-buttonjustify-content-end mt-auto m-2";
 
         const nameElement = document.createElement("h5");
         nameElement.className = "product-name";

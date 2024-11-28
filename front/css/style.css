@@ -10,10 +10,21 @@ body {
 }
 
 
-.main-content{
-    margin-left: 250px;
+.main-content-form{
+    margin-left: 30%;
+    margin-right: 20%;
+
 
 }
+
+.main-content{
+    margin-left: 20%;
+    margin-right: 10%;
+
+
+}
+
+
 
 .main-content-dos{
     
@@ -80,6 +91,7 @@ body {
 .card-body{
 
     height: 50px;
+   
 }
 
 .addelement{
@@ -109,6 +121,8 @@ body {
     
     
 }
+
+
 
 .product-autor{
 
@@ -161,6 +175,7 @@ body {
 #emptyContainer{
 
     color: red;
+    position: absolute;
 }
 
 .body-button{
