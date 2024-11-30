@@ -7,7 +7,7 @@ package com.microlibrary.partner.controller;
 import com.microlibrary.partner.dto.PartnerRequest;
 import com.microlibrary.partner.dto.PartnerResponse;
 import com.microlibrary.partner.exception.BussinesRuleException;
-import com.microlibrary.partner.service.PartnerService;
+import com.microlibrary.partner.service.PartnerServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -36,7 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PartnerController {
 
     @Autowired
-    PartnerService pas;
+    PartnerServiceImpl pas;
 
     @Operation(description = "FindAll Partners", summary = "Return 404 if no partners found")
     @ApiResponses(value = {

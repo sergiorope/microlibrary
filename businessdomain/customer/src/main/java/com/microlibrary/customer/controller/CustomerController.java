@@ -6,7 +6,7 @@ package com.microlibrary.customer.controller;
 
 import com.microlibrary.customer.dto.CustomerRequest;
 import com.microlibrary.customer.dto.CustomerResponse;
-import com.microlibrary.customer.service.CustomerService;
+import com.microlibrary.customer.service.CustomerServiceImpl;
 import com.microlibrary.customer.exception.BussinesRuleException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -37,7 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CustomerController {
 
     @Autowired
-    CustomerService cs;
+    CustomerServiceImpl cs;
 
     @Operation(description = "FindAll Customers", summary = "Return 404 if the customers not found")
     @ApiResponses(value = {

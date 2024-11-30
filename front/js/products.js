@@ -1,9 +1,16 @@
 document.addEventListener("DOMContentLoaded", () => {
   const apiUrlGET = "http://localhost:8080/product/list";
 
+  const startTime = performance.now();
+
   //Petición para recuperar todos los productos al cargar la página
   fetch(apiUrlGET)
     .then((response) => {
+
+      const endTime = performance.now(); // Finaliza el temporizador
+      const duration = endTime - startTime; 
+      console.log(`La respuesta tardó ${duration.toFixed(2)} ms en completarse.`)
+
       if (!response.ok) {
         throw new Error("Error en la red");
       }

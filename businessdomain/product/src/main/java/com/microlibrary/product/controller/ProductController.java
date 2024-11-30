@@ -7,7 +7,7 @@ package com.microlibrary.product.controller;
 import com.microlibrary.product.dto.ProductRequest;
 import com.microlibrary.product.dto.ProductResponse;
 import com.microlibrary.product.entities.Product;
-import com.microlibrary.product.service.ProductService;
+import com.microlibrary.product.service.ProductServiceImpl;
 import com.microlibrary.product.exception.BussinesRuleException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -37,7 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
 
     @Autowired
-    ProductService ps;
+    ProductServiceImpl ps;
 
     @Operation(description = "FindAll Products", summary = "Return 404 if the products not found")
     @ApiResponses(value = {

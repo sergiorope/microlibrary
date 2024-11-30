@@ -7,7 +7,7 @@ package com.microlibrary.loan.controller;
 import com.microlibrary.loan.dto.LoanRequest; // Asegúrate de que este DTO exista
 import com.microlibrary.loan.dto.LoanResponse; // Asegúrate de que este DTO exista
 import com.microlibrary.loan.entities.Loan; // Asegúrate de que esta entidad exista
-import com.microlibrary.loan.service.LoanService; // Asegúrate de que este servicio exista
+import com.microlibrary.loan.service.LoanServiceImpl; // Asegúrate de que este servicio exista
 import com.microlibrary.loan.exception.BussinesRuleException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -37,7 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoanController {
 
     @Autowired
-    LoanService ls; // Cambiado de ps a ls para seguir una convención
+    LoanServiceImpl ls; // Cambiado de ps a ls para seguir una convención
 
     @Operation(description = "Find All Loans", summary = "Return 404 if the loans are not found")
     @ApiResponses(value = {
