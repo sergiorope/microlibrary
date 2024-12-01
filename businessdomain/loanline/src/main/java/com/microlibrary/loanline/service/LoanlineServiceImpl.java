@@ -34,7 +34,7 @@ import reactor.netty.http.client.HttpClient;
  * @author Sergio
  */
 @Service
-public class LoanlineServiceImpl { 
+public class LoanlineServiceImpl implements LoanlineService{ 
 
     @Autowired
     LoanlineRepository llr; 

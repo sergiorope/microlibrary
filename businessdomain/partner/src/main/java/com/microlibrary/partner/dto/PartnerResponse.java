@@ -5,6 +5,7 @@
 package com.microlibrary.partner.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
@@ -13,6 +14,7 @@ import lombok.Data;
  */
 @Schema(name = "PartnerResponse", description = "Model representing a product in the database")
 @Data
+@AllArgsConstructor 
 public class PartnerResponse {
     
     @Schema(name = "id", required = true, example = "1", defaultValue = "1", description = "Unique ID of the partner")

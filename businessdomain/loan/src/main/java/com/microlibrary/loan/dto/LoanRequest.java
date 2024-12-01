@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import lombok.AllArgsConstructor;
 
 /**
  *
@@ -11,6 +12,7 @@ import java.time.format.DateTimeFormatter;
  */
 @Schema(name = "LoanRequest", description = "Model representing a loan in the database")
 @Data
+@AllArgsConstructor 
 public class LoanRequest {
 
 

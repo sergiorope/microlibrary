@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
  * @author Sergio
  */
 @Service
-public class ProductServiceImpl {
+public class ProductServiceImpl implements ProductService {
 
     @Autowired
     ProductRepository pr;

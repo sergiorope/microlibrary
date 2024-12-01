@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     /*En esta página se utilizan las Promises, porque loan es el microservicio mas exigente, ya que utiliza "maestro de detalles",
     y maneja varios servicios a la vez entonces a diferencia de los demás, gracias a los promises reducimos el tiempo de respuesta gracias a que se realizan en paralelo las peticiones*/ 
-    
+
     const loanPromises = loans.map(async (item) => {
       const validationDay = isFutureDate(item.end_date);
 
@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         fetch(`http://localhost:8080/loanline/by-loan/${item.id}`).then((res) => res.json())
       ]);
 
-      // Crear los elementos de la UI
+
       return { item, customerResponse, loanLinesResponse };
     });
 

@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author Sergio
  */
+
 public interface PartnerRepository extends JpaRepository<Partner, Long> {
     
 }

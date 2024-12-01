@@ -15,7 +15,7 @@ public interface LoanlineService {
 
     List<LoanlineResponse> getByLoanId(long loanId) throws BussinesRuleException;
 
-    String getProduct(long id) throws BussinesRuleException;
+    String getProduct(long id) throws BussinesRuleException, UnknownHostException;
 
     LoanlineResponse post(LoanlineRequest input) throws BussinesRuleException;
 
