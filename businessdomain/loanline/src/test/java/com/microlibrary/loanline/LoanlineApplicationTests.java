@@ -1,11 +1,14 @@
 package com.microlibrary.loanline;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.TextNode;
 import com.microlibrary.loanline.dto.LoanlineRequest;
 import com.microlibrary.loanline.dto.LoanlineResponse;
 import com.microlibrary.loanline.entities.Loanline;
 import com.microlibrary.loanline.exception.BussinesRuleException;
 import com.microlibrary.loanline.repository.LoanlineRepository;
 import com.microlibrary.loanline.service.LoanlineService; // Importa el servicio
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +24,8 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 @SpringBootTest
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
@@ -28,6 +33,7 @@ class LoanlineApplicationTests {
 
     @MockBean
     private LoanlineRepository loanlineRepository;
+   
 
     @Autowired
     private LoanlineService loanlineService;
@@ -72,6 +78,28 @@ class LoanlineApplicationTests {
         verify(loanlineRepository, times(1)).findById(1L);
 
     }
+    
+     @Test
+    void getByLoanIdTest() throws BussinesRuleException {
+
+        // Given
+        List<Loanline> loanlineListMock = new ArrayList<>();
+
+        loanlineListMock.add(new Loanline(4L,2L,3L));
+        loanlineListMock.add(new Loanline(5L,2L,3L));
+
+        when(loanlineRepository.findByLoanId(3L)).thenReturn((loanlineListMock));
+
+        // When
+        List<LoanlineResponse> loanlineResponse = loanlineService.getByLoanId(3L);
+
+        // Then
+        assertEquals(4, loanlineResponse.get(0).getId());
+        assertThrows(BussinesRuleException.class, () -> loanlineService.getByLoanId(5L));
+        verify(loanlineRepository, times(1)).findByLoanId(3L);
+    }
+    
+
 
     @Test
     void postTest() throws BussinesRuleException {

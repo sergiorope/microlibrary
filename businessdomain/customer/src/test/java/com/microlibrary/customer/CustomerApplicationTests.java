@@ -76,6 +76,26 @@ class CustomerApplicationTests {
         verify(customerRepository, times(1)).findById(1L);
 
     }
+    
+    @Test
+    void getByPartnerIdTest() throws BussinesRuleException {
+
+        // Given
+        List<Customer> customerListMock = new ArrayList<>();
+
+        customerListMock.add(new Customer(1L, "Pepe", "Sanchez", 101L));
+        customerListMock.add(new Customer(2L, "Juan", "Perez", 101L));
+
+        when(customerRepository.findByPartnerId(101L)).thenReturn((customerListMock));
+
+        // When
+        List<CustomerResponse> customerResponse = customerService.getByPartnerId(101L);
+
+        // Then
+        assertEquals(1L, customerResponse.get(0).getId());
+        assertThrows(BussinesRuleException.class, () -> customerService.getByPartnerId(5L));
+        verify(customerRepository, times(1)).findByPartnerId(101L);
+    }
 
     @Test
     void postTest() throws BussinesRuleException {
