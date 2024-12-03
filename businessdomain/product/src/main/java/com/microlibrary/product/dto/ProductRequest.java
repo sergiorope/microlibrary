@@ -7,6 +7,7 @@ package com.microlibrary.product.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  *
@@ -15,6 +16,7 @@ import lombok.Data;
 @Schema(name = "ProductRequest", description = "Model represent a product on database")
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class ProductRequest {
 
     @Schema(name = "name", required = true, example = "La isla de la mujer dormida", defaultValue = "La isla de la mujer dormida", description = "Name of product")
