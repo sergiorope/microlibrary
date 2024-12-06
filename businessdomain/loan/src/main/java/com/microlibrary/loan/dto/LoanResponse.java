@@ -1,7 +1,9 @@
 package com.microlibrary.loan.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  *
@@ -9,6 +11,8 @@ import lombok.Data;
  */
 @Schema(name = "LoanResponse", description = "Model representing a loan in the database")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class LoanResponse {
     
     @Schema(name = "id", required = true, example = "1", defaultValue = "1", description = "Unique ID of the loan")

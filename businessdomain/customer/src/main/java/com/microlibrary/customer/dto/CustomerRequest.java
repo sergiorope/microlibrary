@@ -8,6 +8,7 @@ import com.microlibrary.customer.entities.Customer;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  *
@@ -15,7 +16,8 @@ import lombok.Data;
  */
 @Schema(name = "CustomerRequest", description = "Model represent a Customer on database")
 @Data
-@AllArgsConstructor 
+@AllArgsConstructor
+@NoArgsConstructor
 public class CustomerRequest {
 
     @Schema(name = "name", required = true, example = "Diego", defaultValue = "Diego", description = "Name of customer")

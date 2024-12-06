@@ -2,9 +2,8 @@ package com.microlibrary.loanline.controller;
 
 import com.microlibrary.loanline.dto.LoanlineRequest; 
 import com.microlibrary.loanline.dto.LoanlineResponse; 
-import com.microlibrary.loanline.entities.Loanline; 
-import com.microlibrary.loanline.service.LoanlineServiceImpl; 
 import com.microlibrary.loanline.exception.BussinesRuleException; 
+import com.microlibrary.loanline.service.LoanlineService;
 import io.swagger.v3.oas.annotations.Operation; 
 import io.swagger.v3.oas.annotations.responses.ApiResponse; 
 import io.swagger.v3.oas.annotations.responses.ApiResponses; 
@@ -29,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoanlineController {
 
     @Autowired
-    LoanlineServiceImpl lls;
+    LoanlineService lls;
 
     @Operation(description = "FindAll Loanlines", summary = "Return 404 if the loanlines not found")
     @ApiResponses(value = {

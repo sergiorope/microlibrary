@@ -5,7 +5,9 @@
 package com.microlibrary.loanline.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  *
@@ -13,6 +15,9 @@ import lombok.Data;
  */
 @Schema(name = "LoanlineResponse", description = "Model representing a loanline in the database")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+
 public class LoanlineResponse {
     
     @Schema(name = "id", required = true, example = "1", defaultValue = "1", description = "Unique ID of the loanline")

@@ -5,6 +5,7 @@ import lombok.Data;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 /**
  *
@@ -12,7 +13,8 @@ import lombok.AllArgsConstructor;
  */
 @Schema(name = "LoanRequest", description = "Model representing a loan in the database")
 @Data
-@AllArgsConstructor 
+@AllArgsConstructor
+@NoArgsConstructor 
 public class LoanRequest {
 
 
