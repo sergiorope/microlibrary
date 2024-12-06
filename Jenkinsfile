@@ -15,6 +15,21 @@ pipeline {
                 git branch: "main", url: "https://github.com/sergiorope/microlibrary"
             }
         }
+		
+		stage('Run Tests') {
+    steps {
+        script {
+            def businessServices = BUSINESS_DOMAIN_SERVICES.split(',')
+            for (service in businessServices) {
+                dir("businessdomain/${service}") { 
+                    bat 'mvn test' 
+						}
+					}
+				}
+			}
+		}
+
+
         
         stage('SonarQube Analysis') {
             steps {
