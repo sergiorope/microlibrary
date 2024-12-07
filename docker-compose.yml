@@ -96,3 +96,21 @@ services:
       - 80:80
     depends_on:
       - mysql_db
+      
+  ##SERVICIO DE KEYCLOAK##
+  keycloack_server:
+    container_name: keycloackServer
+    image: quay.io/keycloak/keycloak:latest
+    command: start-dev
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      DB_VENDOR: mysql
+      DB_ADDR: mysql_db
+      DB_DATABASE: keycloak
+      DB_USER: mysql
+      DB_PASSWORD: qwerty
+    ports:
+      - 8091:8080
+    depends_on:
+      - mysql_db
