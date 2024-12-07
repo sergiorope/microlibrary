@@ -17,6 +17,7 @@
     <modules>
         <module>eurekaServer</module>
         <module>apigateway</module>
+        <module>keycloakAdapter</module>
     </modules>
     
     <dependencyManagement>
