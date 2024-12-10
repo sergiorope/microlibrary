@@ -5,7 +5,6 @@
  */
 package com.microlibrary.keycloakAdapter.controler;
 
-import com.paymentchain.service.KeycloakRestService;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.auth0.jwk.Jwk;
@@ -13,7 +12,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.microlibrary.keycloakAdapter.exception.BussinesRuleException;
-import com.paymentchain.service.JwtService;
+import com.microlibrary.keycloakAdapter.service.JwtService;
+import com.microlibrary.keycloakAdapter.service.KeycloakRestService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
