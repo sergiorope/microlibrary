@@ -73,7 +73,7 @@ services:
    ##SERVICIO DE KEYCLOAK-ADAPTER##
    keycloak:
     container_name: keycloakAdapter
-    image: paymentchain/microservice-docker-keycloack-adapter:latest  
+    image: sergiorodper/microlibrary:microlibrary-keycloakAdapter-v1
     environment:
       - JAVA_OPTS=-Xms256M -Xmx256M
       - EUREKA_SERVER=http://registry-discovery:8252/eureka/
