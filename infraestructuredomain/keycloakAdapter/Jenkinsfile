@@ -1,0 +1,70 @@
+pipeline {
+    agent any 
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                echo 'Cloning repository...'
+                git branch: "feature-keycloak", url: "https://github.com/sergiorope/microlibrary"
+            }
+        }
+        
+        stage('Build keycloakAdapter Service') {
+            steps {
+                dir("infraestructuredomain/keycloakAdapter") {
+                    bat 'mvn clean package'
+                }
+            }
+        }
+        
+        stage('Remove Old keycloakAdapter Docker Image') {
+            steps {
+                bat "docker rmi -f sergiorodper/microlibrary:microlibrary-keycloakAdapter-v1 || echo 'No existing image to remove for keycloakAdapter'"
+            }
+        }
+
+        stage('Build Docker Image for keycloakAdapter') {
+            steps {
+                dir("infraestructuredomain/keycloakAdapter") {
+                    bat 'docker build -t sergiorodper/microlibrary:microlibrary-keycloakAdapter-v1 --no-cache --build-arg JAR_FILE=target/*.jar .'
+                }
+            }
+        }
+		
+		stage('Push Docker Image to Docker Hub') {
+			steps {
+				script {
+					try {
+						withCredentials([usernamePassword(credentialsId: 'dockerhub-jenkins-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+							bat "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
+							
+							bat "docker push sergiorodper/microlibrary:microlibrary-keycloakAdapter-v1"
+							
+						}
+					} catch (Exception e) {
+						echo "Docker login or push failed: ${e.message}"
+					}
+			}
+    }
+}
+
+        stage('Deploy') {
+            steps {
+                dir(".") {
+                    bat 'echo Current directory: %cd%'
+                    bat 'docker-compose down'
+                    bat 'docker-compose up -d --remove-orphans'
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed!'
+        }
+    }
+}

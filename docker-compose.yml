@@ -69,19 +69,18 @@ services:
       - EUREKA_SERVER=http://eureka:8252/eureka/
     ports:
       - 8080:8080
-      
-   ##SERVICIO DE KEYCLOAK-ADAPTER##
-   keycloak:
+
+  ##SERVICIO DE KEYCLOAK-ADAPTER##
+  keycloak:
     container_name: keycloakAdapter
     image: sergiorodper/microlibrary:microlibrary-keycloakAdapter-v1
     environment:
       - JAVA_OPTS=-Xms256M -Xmx256M
-      - EUREKA_SERVER=http://registry-discovery:8252/eureka/
+      - EUREKA_SERVER=http://eureka:8252/eureka/
       - KEYCLOAK_SERVER=http://keycloak-server:8091/realms/
       - KEYCLOAK_REAL_ID=2cc56733-92a7-43e1-925b-7f3ddf27c467
     ports:
       - 8088:8088
-
 
   ##SERVICIO DE BASE DE DATOS MYSQL##
   mysql_db:
@@ -109,10 +108,10 @@ services:
       - 80:80
     depends_on:
       - mysql_db
-      
+
   ##SERVICIO DE KEYCLOAK##
-  keycloack_server:
-    container_name: keycloackServer
+  keycloak_server:
+    container_name: keycloakServer
     image: quay.io/keycloak/keycloak:latest
     command: start-dev
     environment:
