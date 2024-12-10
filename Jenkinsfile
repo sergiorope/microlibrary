@@ -9,13 +9,6 @@ pipeline {
     }
 
     stages {
-        stage('Clone Repository') {
-            steps {
-                echo 'Cloning repository...'
-                git branch: "feature-keycloak", url: "https://github.com/sergiorope/microlibrary"
-            }
-        }
-		
 		stage('Run Tests') {
     steps {
         script {
