@@ -72,7 +72,7 @@ services:
 
   ##SERVICIO DE KEYCLOAK-ADAPTER##
   keycloak:
-    container_name: keycloakAdapter
+    container_name: microlibrary-keycloakAdapter
     image: sergiorodper/microlibrary:microlibrary-keycloakAdapter-v1
     environment:
       - JAVA_OPTS=-Xms256M -Xmx256M
