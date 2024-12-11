@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 /**
@@ -19,6 +20,7 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor 
+@NoArgsConstructor 
 @Entity
 @Schema(name = "Product", description = "Model represent a product on database")
 

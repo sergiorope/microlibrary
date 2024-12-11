@@ -1,14 +1,7 @@
 pipeline {
     agent any 
 
-    stages {
-        stage('Clone Repository') {
-            steps {
-                echo 'Cloning repository...'
-                git branch: "main", url: "https://github.com/sergiorope/microlibrary"
-            }
-        }
-        
+    stages {   
         stage('Build ApiGateway Service') {
             steps {
                 dir("infraestructuredomain/apigateway") {

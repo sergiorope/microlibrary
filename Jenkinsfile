@@ -8,26 +8,19 @@ pipeline {
         SONARQUBE_TOKEN = credentials('sonarqube-microlibrary-credentials')	
     }
 
-    stages {
-        stage('Clone Repository') {
-            steps {
-                echo 'Cloning repository...'
-                git branch: "main", url: "https://github.com/sergiorope/microlibrary"
-            }
-        }
-		
+    stages {		
 		stage('Run Tests') {
-    steps {
-        script {
-            def businessServices = BUSINESS_DOMAIN_SERVICES.split(',')
-            for (service in businessServices) {
-                dir("businessdomain/${service}") { 
-                    bat 'mvn test' 
+			steps {
+				script {
+					def businessServices = BUSINESS_DOMAIN_SERVICES.split(',')
+					for (service in businessServices) {
+						dir("businessdomain/${service}") { 
+							bat 'mvn test' 
+								}
+							}
 						}
 					}
 				}
-			}
-		}
 
 
         
