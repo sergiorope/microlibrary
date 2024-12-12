@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: eureka-config
+data:
+  SERVER_PORT: "8252"
+  SPRING_APPLICATION_NAME: "eureka-server"
+  EUREKA_SERVER_RENEWAL_PERCENT_THRESHOLD: "0.85"
+  EUREKA_INSTANCE_LEASE_RENEWAL_INTERVAL: "10"
+  EUREKA_SERVER_ENABLE_SELF_PRESERVATION: "true"

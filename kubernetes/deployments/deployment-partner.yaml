@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: partner-deployment
+  labels:
+    app: partner
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: partner
+  template:
+    metadata:
+      labels:
+        app: partner
+    spec:
+      containers:
+        - name: partner
+          image: sergiorodper/microlibrary:microlibrary-partner-v1
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: partner-config  
+            - secretRef:
+                name: partner-secret
