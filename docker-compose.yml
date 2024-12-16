@@ -1,13 +1,15 @@
 version: '3.8'
 
 services:
-  ##SERVICIO DE PRODUCT##
+  ## SERVICIO DE PRODUCT ##
   product:
     container_name: microlibrary-product
     image: sergiorodper/microlibrary:microlibrary-product-v1
     environment:
       - JAVA_OPTS=-Xms256M -Xmx256M
       - EUREKA_SERVER=http://eureka:8252/eureka/
+      - MYSQL_USER=mysql
+      - MYSQL_PASSWORD=qwerty
     depends_on:
       - mysql_db
 
@@ -18,6 +20,8 @@ services:
     environment:
       - JAVA_OPTS=-Xms256M -Xmx256M
       - EUREKA_SERVER=http://eureka:8252/eureka/
+      - MYSQL_USER=mysql
+      - MYSQL_PASSWORD=qwerty
     depends_on:
       - mysql_db
 
@@ -28,6 +32,8 @@ services:
     environment:
       - JAVA_OPTS=-Xms256M -Xmx256M
       - EUREKA_SERVER=http://eureka:8252/eureka/
+      - MYSQL_USER=mysql
+      - MYSQL_PASSWORD=qwerty
     depends_on:
       - mysql_db
 
@@ -38,6 +44,8 @@ services:
     environment:
       - JAVA_OPTS=-Xms256M -Xmx256M
       - EUREKA_SERVER=http://eureka:8252/eureka/
+      - MYSQL_USER=mysql
+      - MYSQL_PASSWORD=qwerty
     depends_on:
       - mysql_db
 
@@ -48,6 +56,8 @@ services:
     environment:
       - JAVA_OPTS=-Xms256M -Xmx256M
       - EUREKA_SERVER=http://eureka:8252/eureka/
+      - MYSQL_USER=mysql
+      - MYSQL_PASSWORD=qwerty
     depends_on:
       - mysql_db
 
