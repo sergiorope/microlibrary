@@ -18,11 +18,8 @@ spec:
         - name: product
           image: sergiorodper/microlibrary:microlibrary-product-v1
           imagePullPolicy: IfNotPresent
-          env:
-            - name: DB_HOST
-              value: mysql-service  # Nombre del servicio de MySQL en el cluster Kubernetes
           envFrom:
             - configMapRef:
-                name: product-config   # ConfigMap que contiene configuraciones como DB_HOST, etc.
+                name: product-config   
             - secretRef:
-                name: product-secret   # Secret que contiene credenciales como contraseñas, etc.
+                name: product-secret   
