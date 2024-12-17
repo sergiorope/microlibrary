@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-service
+spec:
+  selector:
+    app: mysql  # Esta etiqueta debe coincidir con la del Deployment de MySQL
+  ports:
+    - protocol: TCP
+      port: 3306       # El puerto en el que el servicio estará disponible
+      targetPort: 3306  # El puerto en el que MySQL está escuchando en el contenedor
+  clusterIP: None        # Esto hace que el servicio sea un servicio de tipo 'Headless', ideal para usar en una configuración de base de datos

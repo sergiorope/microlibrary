@@ -10,6 +10,6 @@ spec:
   capacity:
     storage: 5Gi
   accessModes:
-    - ReadWriteOnce 
+    - ReadWriteMany 
   hostPath:
     path: "/mnt/data/mysql_data" 

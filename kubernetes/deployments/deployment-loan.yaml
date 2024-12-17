@@ -20,6 +20,6 @@ spec:
           imagePullPolicy: IfNotPresent
           envFrom:
             - configMapRef:
-                name: loan-config  
+                name: loan-config
             - secretRef:
                 name: loan-secret
