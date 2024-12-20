@@ -3,10 +3,11 @@ kind: Service
 metadata:
   name: apigateway-service
 spec:
+  type: NodePort  # Expone el servicio externamente
   selector:
     app: apigateway  
   ports:
     - protocol: TCP
       port: 8080       
-      targetPort: 8080  
-  clusterIP: None       
+      targetPort: 8080
+      nodePort: 31000  # Puerto externo entre 30000-32767

@@ -20,5 +20,8 @@ spec:
           imagePullPolicy: IfNotPresent
           envFrom:
             - configMapRef:
-                name: product-config  
+                name: apigateway-config  
+       
+                
+                
         

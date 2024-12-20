@@ -3,13 +3,4 @@ kind: ConfigMap
 metadata:
   name: apigateway-config
 data:
-  application.properties: |
-    server.port=8080
-    spring.application.name=apigateway
-    eureka.client.serviceUrl.defaultZone=http://localhost:8252/eureka
-    allowed.origins=http://127.0.0.1:5500
-    routes.product.uri=lb://microlibrary-product
-    routes.customer.uri=lb://microlibrary-customer
-    routes.partner.uri=lb://microlibrary-partner
-    routes.loan.uri=lb://microlibrary-loan
-    routes.loanline.uri=lb://microlibrary-loanline
+  EUREKA_SERVER: "http://eureka:8252/eureka/"

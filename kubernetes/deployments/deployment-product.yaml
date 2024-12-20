@@ -23,3 +23,5 @@ spec:
                 name: product-config   
             - secretRef:
                 name: product-secret   
+          ports:
+            - containerPort: 8185  # Puerto donde el contenedor escuchará
