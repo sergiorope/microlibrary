@@ -10,6 +10,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     const customers = await response.json();
 
+    
+
+    if(customers.length == 0){
+
+      console.log("weeeeeeeeee")
+
+      const noList = document.getElementById("noList");
+
+      noList.textContent = "No hay clientes";
+    }
+
     resultContainer.innerHTML = "";
 
 
