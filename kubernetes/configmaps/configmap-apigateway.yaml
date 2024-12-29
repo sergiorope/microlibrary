@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: apigateway-config
-data:
-  EUREKA_SERVER: "http://eureka:8252/eureka/"
