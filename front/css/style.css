@@ -1,35 +1,41 @@
 body {
-
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .titulo {
-
     font-size: 70px;
+}
 
+.side-title {
+    font-size: 35px;
+    color: white;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    transition: color 0.3s ease;
+}
+
+.product-autor {
+    color: gray;
+    font-size: x-small;
+    font-weight: bold;
+}
+
+.card-body {
+    height: 50px;
 }
 
 
-.main-content-form{
+.main-content-form {
     margin-left: 30%;
     margin-right: 20%;
-
-
 }
 
-.main-content{
+.main-content {
     margin-left: 20%;
     margin-right: 10%;
-
-
 }
 
-
-
-.main-content-dos{
-    
+.main-content-dos {
     align-items: center;
-
 }
 
 .side-bar {
@@ -41,16 +47,21 @@ body {
 }
 
 .side-bar:hover {
-    width: 15%; 
+    width: 15%;
 }
 
-.side-title {
-
-    font-size: 35px;
-    color: white;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    transition: color 0.3s ease;
+#selectsContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
+
+#result {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 5%;
+}
+
 
 .side-button {
     font-size: 20px !important;
@@ -58,7 +69,6 @@ body {
     color: white !important;
     transition: font-size 0.3s ease;
 }
-
 
 .side-button:hover {
     font-size: 24px !important;
@@ -68,6 +78,74 @@ body {
     color: rgb(230, 175, 136);
 }
 
+.addelement {
+    width: 150px;
+    transition: width 0.3s ease;
+}
+
+.addelement:hover {
+    width: 200px;
+}
+
+.body-button {
+    padding: 5%;
+}
+
+
+.product-image {
+    height: 42%;
+    width: 30%;
+    padding: 2%;
+}
+
+.product-description {
+    max-height: 100px;
+    overflow-y: auto;
+    white-space: pre-line;
+}
+
+.card-size {
+    width: 30%;
+    height: auto;
+    margin: 1%;
+}
+
+
+.statusPassed {
+    color: green;
+}
+
+.statusExpired {
+    color: red;
+}
+
+
+#messageContainer {
+    color: green;
+    position: absolute;
+}
+
+#emptyContainer {
+    color: red;
+    position: absolute;
+}
+
+.noList {
+    text-align: center;
+    background-color: greenyellow;
+    border: 3px solid green;
+    border-radius: 10px;
+    padding: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    color: darkgreen;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 15px;
+}
+
+.errormsgproduct {
+    color: red;
+}
 
 
 .custom-icon {
@@ -77,124 +155,9 @@ body {
 .ayuda {
     border: 3px solid black;
     border-radius: 30px;
-
 }
-
-.product-image{
-
-    height:42%;
-    width: 30%;
-    padding: 2%;
-
-}
-
-.card-body{
-
-    height: 50px;
-   
-}
-
-.addelement{
-
-    width: 150px;
-    transition: width 0.3s ease;
-}
-
-.addelement:hover{
-
-   width: 200px;
-}
-
-.product-description{
-
-    max-height: 100px; 
-    overflow-y: auto; 
-    white-space: pre-line; 
-
-}
-
-.card-size{
-
-    width: 30%;
-    height: auto;
-    margin: 1%;
-    
-    
-}
-
-
-
-.product-autor{
-
-    color:gray;
-    font-size: x-small;
-    font-weight: bold;
-}
-
 
 .accordion-header {
-    border: 0.5px solid #888; /* Borde más fino y gris */
+    border: 0.5px solid #888; 
     border-radius: 1%;
 }
-
-.statusPassed {
-
-    color: green;
-}
-
-.statusExpired {
-
-    color: red;
-}
-
-#selectsContainer {
-
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-
-#result{
-
-    display: flex;
-    flex-wrap: wrap;
-    padding: 5%;
-    
-}
-
-#messageContainer{
-
-    color: green;
-    position: absolute;
-    
-}
-
-
-
-#emptyContainer{
-
-    color: red;
-    position: absolute;
-}
-
-.body-button{
-
-    padding: 5%;
-}
-
-.errormsgproduct{
-
-    color: red;
-}
-
-.eee{
-
-    display: flex;
-    font-weight: bold;
-
-   margin-right: 30%;
-}
-
-
-

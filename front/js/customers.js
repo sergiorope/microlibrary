@@ -3,37 +3,35 @@ document.addEventListener("DOMContentLoaded", async () => {
   const resultContainer = document.getElementById("result");
 
   try {
-    // Recuperar todos los clientes
     const response = await fetch(apiUrlGET);
+
+    if (response.status === 404) {
+      const noList = document.createElement("div");
+      noList.className = "noList";
+      noList.textContent = "No hay clientes";
+
+      resultContainer.innerHTML = ""; 
+      resultContainer.appendChild(noList); 
+
+      return; 
+    }
+
     if (!response.ok) {
       throw new Error("Error en la red");
     }
+
     const customers = await response.json();
 
-    
-
-    if(customers.length == 0){
-
-      console.log("weeeeeeeeee")
-
-      const noList = document.getElementById("noList");
-
-      noList.textContent = "No hay clientes";
-    }
-
     resultContainer.innerHTML = "";
-
 
     for (const item of customers) {
       const id = item.id;
 
-      // Obtener el partner del cliente
       const partnerResponse = await fetch(`http://localhost:8080/customer/partner/${id}`);
       if (!partnerResponse.ok) {
         throw new Error("Error en la red");
       }
       const dataPartner = await partnerResponse.text();
-
 
       const card = document.createElement("div");
       card.className = "card mb-2";
@@ -41,7 +39,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       const updateButton = document.createElement("a");
       updateButton.className = "btn btn-primary";
       updateButton.textContent = "Editar";
-      updateButton.href = `../putcustomer.html?id=${id}`; 
+      updateButton.href = `../putcustomer.html?id=${id}`;
+      
       const deleteButton = document.createElement("a");
       deleteButton.className = "btn btn-danger boton-eliminar";
       deleteButton.textContent = "Eliminar";
@@ -61,11 +60,14 @@ document.addEventListener("DOMContentLoaded", async () => {
       partnerElement.className = "customer-partner mt-2";
       partnerElement.innerHTML = `<b>Grupo:</b> ${dataPartner}`;
 
-      cardBody.append(nameElement, surnameElement, partnerElement, updateButton, deleteButton);
-      card.appendChild(cardBody);
-      resultContainer.appendChild(card); 
+      // Crear un contenedor adicional para separar los datos con el | entre ellos
+      const separator = document.createElement("span");
+      separator.innerHTML = `&nbsp;&nbsp;|&nbsp;&nbsp;`;
 
-      
+      cardBody.append(nameElement, separator.cloneNode(true), surnameElement, separator.cloneNode(true), partnerElement, updateButton, deleteButton);
+      card.appendChild(cardBody);
+      resultContainer.appendChild(card);
+
       deleteButton.addEventListener("click", async (event) => {
         event.preventDefault();
         const apiUrlDELETE = `http://localhost:8080/customer/${id}`;
@@ -75,7 +77,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           if (!deleteResponse.ok) {
             throw new Error("Error en la red");
           }
-          location.reload(); 
+          location.reload();
         } catch (error) {
           console.error("Hubo un problema con la eliminación:", error);
           alert("No se pudo eliminar el customer: " + error.message);

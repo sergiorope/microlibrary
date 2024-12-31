@@ -7,9 +7,21 @@ document.addEventListener("DOMContentLoaded", () => {
   fetch(apiUrlGET)
     .then((response) => {
 
-      const endTime = performance.now(); // Finaliza el temporizador
-      const duration = endTime - startTime; 
-      console.log(`La respuesta tardó ${duration.toFixed(2)} ms en completarse.`)
+      if (response.status === 404) {
+        const noList = document.createElement("div");
+  
+        noList.className="noList";
+  
+        noList.textContent = "No hay productos";
+  
+        
+        resultContainer.innerHTML = ""; 
+        resultContainer.appendChild(noList); 
+  
+        return; 
+      }
+
+
 
       if (!response.ok) {
         throw new Error("Error en la red");

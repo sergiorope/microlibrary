@@ -5,6 +5,21 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   try {
     const response = await fetch(apiUrlGET);
+
+    if (response.status === 404) {
+      const noList = document.createElement("div");
+
+      noList.className="noList";
+
+      noList.textContent = "No hay préstamos";
+
+      
+      resultContainer.innerHTML = ""; 
+      resultContainer.appendChild(noList); 
+
+      return; 
+    }
+
     if (!response.ok) {
       throw new Error("Error en la red");
     }

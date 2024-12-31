@@ -133,7 +133,7 @@ form.addEventListener("submit", async (event) => {
 
       if(selects.length != 0){
 
-        console.log("weeeeeee");
+       
 
       
 
