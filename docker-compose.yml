@@ -5,6 +5,7 @@ services:
   product:
     container_name: microlibrary-product
     image: sergiorodper/microlibrary:microlibrary-product-v1
+    restart: always
     environment:
       - JAVA_OPTS=-Xms256M -Xmx256M
       - EUREKA_SERVER=http://eureka:8252/eureka/
@@ -18,6 +19,7 @@ services:
   customer:
     container_name: microlibrary-customer
     image: sergiorodper/microlibrary:microlibrary-customer-v1
+    restart: always
     environment:
       - JAVA_OPTS=-Xms256M -Xmx256M
       - EUREKA_SERVER=http://eureka:8252/eureka/
@@ -31,6 +33,7 @@ services:
   partner:
     container_name: microlibrary-partner
     image: sergiorodper/microlibrary:microlibrary-partner-v1
+    restart: always
     environment:
       - JAVA_OPTS=-Xms256M -Xmx256M
       - EUREKA_SERVER=http://eureka:8252/eureka/
@@ -44,6 +47,7 @@ services:
   loan:
     container_name: microlibrary-loan
     image: sergiorodper/microlibrary:microlibrary-loan-v1
+    restart: always
     environment:
       - JAVA_OPTS=-Xms256M -Xmx256M
       - EUREKA_SERVER=http://eureka:8252/eureka/
@@ -57,6 +61,7 @@ services:
   loanline:
     container_name: microlibrary-loanline
     image: sergiorodper/microlibrary:microlibrary-loanline-v1
+    restart: always
     environment:
       - JAVA_OPTS=-Xms256M -Xmx256M
       - EUREKA_SERVER=http://eureka:8252/eureka/
@@ -70,6 +75,7 @@ services:
   eureka:
     container_name: microlibrary-eureka
     image: sergiorodper/microlibrary:microlibrary-eurekaServer-v1
+    restart: always
     environment:
       - JAVA_OPTS=-Xms256M -Xmx256M
     ports:
@@ -79,6 +85,7 @@ services:
   apigateway:
     container_name: microlibrary-apigateway
     image: sergiorodper/microlibrary:microlibrary-apigateway-v1
+    restart: always
     environment:
       - JAVA_OPTS=-Xms256M -Xmx256M
       - EUREKA_SERVER=http://eureka:8252/eureka/
