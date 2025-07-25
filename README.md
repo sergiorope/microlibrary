@@ -135,7 +135,7 @@ Respuestas:
 
 🌱 Spring Boot 3.3+
 
-🐘 PostgreSQL / H2
+🐬 MYSQL
 
 🐳 Docker (opcional para despliegue)
 
